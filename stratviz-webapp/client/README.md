@@ -8,20 +8,19 @@ Run the command `npm install`, this should install all external libraries and de
 
 In the project directory, you can run:
 
-### `npm start`
+`npm start`<br>
 Runs the app in the development mode.\
 Opens [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm test`
+`npm test`<br>
 Launches the interactive test suite, found in the `src/test` folder.
 
-### `npm run build`
+`npm run build`<br>
 Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+It correctly bundles React in production mode and optimizes the build for the best performance.\
+The build is minified and is ready for deployment. 
 
 It is recommended to install the React Developer Tool extension for chrome/firefox, as it allows you to easily inspect components, states, props, etc. "https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en"
 ## Relevant Resources
@@ -30,8 +29,8 @@ React Documentation: "https://reactjs.org/docs/getting-started.html" <br>
 MaterialUI (React library) Documentation: "https://mui.com/material-ui/getting-started/installation/" <br>
 Socket.io Documentation: "https://socket.io/docs/v4/"
 ## Video Tutorials
-React Crash Course by Traversy Media: "youtube.com/watch?v=w7ejDZ8SWv8"
-Socket IO Crash Course by WebDevSimplified: "youtube.com/watch?v=ZKEqqIO7n-k"
+React Crash Course by Traversy Media: "https://youtube.com/watch?v=w7ejDZ8SWv8" <br>
+Socket IO Crash Course by WebDevSimplified: "https://youtube.com/watch?v=ZKEqqIO7n-k"
 
 
 

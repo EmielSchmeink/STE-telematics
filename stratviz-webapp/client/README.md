@@ -2,7 +2,7 @@
 This part of the STE-Telematics project relates to the interactive data visualization web application. This Web-app is created using React JS as front-end framework and Socket.io to connect to the back-end server technology.
 
 ## Getting Started
-If you do not have the Node.js runtime installed yet, you can get the latest version from <link href="https://nodejs.org/en/">.<br>
+If you do not have the Node.js runtime installed yet, you can get the latest version from "https://nodejs.org/en/".<br>
 Once Node is installed, open a terminal window in the `client` folder.<br>
 Run the command `npm install`, this should install all external libraries and dependencies for the client. <br>
 

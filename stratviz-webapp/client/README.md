@@ -3,7 +3,7 @@ This part of the STE-Telematics project relates to the interactive data visualiz
 
 ## Getting Started
 If you do not have the Node.js runtime installed yet, you can get the latest version from <link href="https://nodejs.org/en/">.<br>
-Once Node is installed, open a terminal window in the client folder.<br>
+Once Node is installed, open a terminal window in the `client` folder.<br>
 Run the command `npm install`, this should install all external libraries and dependencies for the client. <br>
 
 In the project directory, you can run:
@@ -23,14 +23,15 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-It is recommended to install the React Developer Tool extension for chrome/firefox, as it allows you to easily inspect components, states, props, etc. <link href="https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en">
+It is recommended to install the React Developer Tool extension for chrome/firefox, as it allows you to easily inspect components, states, props, etc. "https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en"
 ## Relevant Resources
 <!-- Provide-->
-React Documentation: <link href="https://reactjs.org/docs/getting-started.html">
-MaterialUI (React library) Documentation: <link href="https://mui.com/material-ui/getting-started/installation/">
-Socket.io Documentation: <link href="https://socket.io/docs/v4/">
+React Documentation: "https://reactjs.org/docs/getting-started.html" <br>
+MaterialUI (React library) Documentation: "https://mui.com/material-ui/getting-started/installation/" <br>
+Socket.io Documentation: "https://socket.io/docs/v4/"
 ## Video Tutorials
-React Crash Course by Traversy Media: <link href="youtube.com/watch?v=w7ejDZ8SWv8">
+React Crash Course by Traversy Media: "youtube.com/watch?v=w7ejDZ8SWv8"
+Socket IO Crash Course by WebDevSimplified: "youtube.com/watch?v=ZKEqqIO7n-k"
 
 
 

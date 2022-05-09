@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 const { io } = require('socket.io-client');
 
-const socket = io('http://localhost:3001')
+//const socket = io('http://localhost:3001')
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

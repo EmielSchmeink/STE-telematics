@@ -28,7 +28,8 @@ It is recommended to install the React Developer Tool extension for chrome/firef
 React Documentation: "https://reactjs.org/docs/getting-started.html" <br>
 MaterialUI (React library) Documentation: "https://mui.com/material-ui/getting-started/installation/" <br>
 Socket.io Documentation: "https://socket.io/docs/v4/"<br>
-Plotly (React) documentation: "https://plotly.com/javascript/react/"
+Plotly (React) documentation: "https://plotly.com/javascript/react/"<br>
+React Tabs documentation: "https://github.com/reactjs/react-tabs"
 ## Video Tutorials
 React Crash Course by Traversy Media: "https://youtube.com/watch?v=w7ejDZ8SWv8" <br>
 Socket IO Crash Course by WebDevSimplified: "https://youtube.com/watch?v=ZKEqqIO7n-k"

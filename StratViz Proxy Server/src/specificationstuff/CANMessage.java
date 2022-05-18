@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class CANMessage {
 
-	public int id;
+	public int id; // Should technically be unsigned, but it is assumed that CANMessage id's don't
+					// exceed INT_MAX
 	public String Name;
 	// Map that
 	public ArrayList<String> fieldNames = new ArrayList<String>();

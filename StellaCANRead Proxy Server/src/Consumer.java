@@ -2,8 +2,7 @@ import java.util.*;
 import java.time.Duration;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.*;
 
 
 public class Consumer {
@@ -12,7 +11,7 @@ public class Consumer {
         
         final Logger logger = LoggerFactory.getLogger(KafkaConsumer.class);
         //change this local host to our server
-        final String bootstrapservers = "localhost:9092, localhost:9093";
+        final String bootstrapservers = "78.47.218.125";
         String grp_id = "group_id";
         String topic = "topic";
 
@@ -36,7 +35,6 @@ public class Consumer {
         //polling for new data
         ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
 
-        
         for(ConsumerRecord<String, String> record: records){
             logger.info("key: "+record.key()+ ", Value:"+record.value());
             logger.info("Partition: "+record.partition() +", offset: "+record.offset());

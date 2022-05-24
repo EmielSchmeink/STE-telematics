@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Tabs demo</title>
+    <link rel="stylesheet" href=" css/master.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  </head>
+  <body>
+
+    <!-- Tab links -->
+    <div class="tab" id="tab">
+      <button id="addTab" onclick="addTab()">
+        <svg style="width:15px;height:15px;padding:0px;" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Tab content -->
+    <div id="tabContentWrapper">
+    </div>
+
+    <!-- javascript -->
+    <script type="text/javascript">
+      var tabId = 0;
+
+      // define tab contents
+      const Tab = class {
+        constructor(title) {
+            this.id = tabId;
+            tabId++;
+            this.title = title;
+        }
+
+        getTitle() {
+            return this.title;
+        }
+
+        getId() {
+          return this.id;
+        }
+
+        getTabHTML() {
+          const html = `
+            <button class="tablinks" id="tab${this.id}" onclick="openTab(event, '${this.id}')" ondblclick="editTabTitle(event, '${this.id}')">
+              ${this.title}
+            </button>
+          `
+
+          return html;
+        }
+
+        getContentHTML() {
+          const html = `
+          <div id="${this.id}" class="tabcontent">
+            <h3>${this.title}</h3>
+            <p>this tab has id: ${this.id}</p>
+          </div>
+          `
+
+          return html;
+        }
+      }
+
+      // define list of Tabs
+      var tabs = [];
+
+      // // initialize some tabs for testing
+      // tabs.push(new Tab("Motor power"));
+      // tabs.push(new Tab("Solar energy"));
+      // tabs.push(new Tab("Some other tab"));
+
+      function createTabs(){
+
+        // delete all Tabs
+        $('.tablinks').remove();
+
+        // insert html
+        tabs.forEach(tab => {
+          // insert tab title
+          $(tab.getTabHTML()).insertBefore('#addTab');
+
+          // insert tab contents
+          $('#tabContentWrapper').append(tab.getContentHTML());
+        });
+
+      }
+
+      createTabs();
+
+      function openTab(evt, id) {
+        // Declare all variables
+        var i, tabcontent, tablinks;
+
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Show the current tab, and add an "active" class to the button that opened the tab
+        document.getElementById(id).style.display = "block";
+        evt.currentTarget.className += " active";
+      }
+
+      function addTab(){
+        tabs[tabId] = new Tab("tab"+tabId);
+        createTabs();
+      }
+
+      function removeTab(tabId){
+        console.log(tabs);
+        for (var i = 0; i < tabs.length; i++) {
+          if (tabs[i] != null && tabs[i].getId() == tabId){
+            delete tabs['' + i];
+          }
+        }
+        createTabs();
+      }
+
+      function editTabTitle(evt, tabId) {
+        // Declare all variables
+        var i, tablinks;
+        // Get all elements with class="tablinks" and remove the class "active"
+        tab = document.getElementById("tab" + tabId);
+        tabTitle = tab.innerHTML.trim();
+        console.log(tabTitle);
+        tab.innerHTML = `<input type="text" id="edit" name="tab edit" value="${tabTitle}">
+        <svg style="width:15px;height:15px;padding-left:8px;" viewBox="0 0 24 24" onmousedown="removeTab(${tabId});">
+          <path fill="currentColor" d="M19,13H5V11H19V13Z" />
+        </svg>`;
+        $("#edit").focus();
+        $("#edit").select();
+
+        $("#edit").focus(function() {
+            console.log('in');
+        }).blur(function() {
+             var newcont = $("#edit").val();
+             $("#tab" + tabId).text(newcont);
+        });
+
+        $('#edit').keypress(function(e){
+          if(e.keyCode==13){
+               var newcont = $("#edit").val();
+               $("#tab" + tabId).text(newcont);
+             }
+        });
+
+      }
+
+    </script>
+
+  </body>
+</html>

@@ -16,8 +16,8 @@ public class KafkaProducer {
         //first local host is main user, second local host is available if anything happens to first host
         props.put("bootstrap.servers", "localhost:9092, localhost:9093");
         //StringSerializer will probably be changed to IntSerializer, depends on our needs
-        props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
-        props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
+        props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
         //first string is based on key, second is based on value
         Producer<String, String> record = new ProducerRecord<>(topicName,key,value);

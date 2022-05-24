@@ -11,6 +11,7 @@ import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.apache.kafka.clients.producer.Producer;
 
 public class ProducerKafka {
     // Hard coded for now

@@ -8,3 +8,5 @@ cd ./opt/bitnami/kafka
 ./bin/kafka-server-start.sh ./config/kraft/server.properties
     # To create a topic named topic1:
 ./bin/kafka-topics.sh --create --topic topic1 --partitions 1 --replication-factor 1 --bootstrap-server localhost:9092
+    # you can connect to port 9092 (or whatever port you configured) 
+    # to perform administrative operations or produce or consume data.

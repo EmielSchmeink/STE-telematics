@@ -1,0 +1,10 @@
+    # Execute the following t land yourself in the right directory
+cd ./opt/bitnami/kafka
+    # You receive a uuid after executing that line
+./bin/kafka-storage.sh random-uuid  
+    # replace <uuid> with the uuid you received after executing the above command
+./bin/kafka-storage.sh format -t <uuid> -c ./config/kraft/server.properties
+    # To start the Kafka server on each node:
+./bin/kafka-server-start.sh ./config/kraft/server.properties
+    # To create a topic named topic1:
+./bin/kafka-topics.sh --create --topic topic1 --partitions 1 --replication-factor 1 --bootstrap-server localhost:9092

@@ -1,35 +1,59 @@
 //import fileupload from 'express-fileupload'
 
 const UploadCSV = () => {
+
+  const inpFile = document.getElementById('inpFile')
+  //const csvForm = document.getElementById('csvForm')
+  const onClick = (e) => {
+    e.preventDefault()
+
+    const endpoint = 'upload.php';
+    const formData = new FormData();
+
+    console.log(inpFile.files)
+
+    formData.append('inpFile', inpFile.files[0])
+
+    fetch(endpoint, {
+      method: 'post',
+      body: formData
+    })
+  }
+
   return (
     <div style = {{textAlign:"center"}}>
         <h3>Uploading messages.csv and typedefs.csv</h3>
-        <form>
-            <input type={"file"} accepts={".csv"} id="fileUpload"/>
-            <button>Import CSV</button>
+        <form id="csvForm">
+            <input type={"file"} accepts={".csv"} id="inpFile" name="inpFile"/><br></br>
+            <button type = 'submit' onClick={onClick}> Import CSV </button>
             
         </form>
     </div>
   )
 }
 
-// const handleMessagesCSVUpload = event => {
-//   const files = event.target.files
-//   const formData = new FormData()
-//   formData.append('myFile', files[0])
 
-//   fetch('/saveFile', {
+
+// csvForm.addEventListener('submit', e => {
+
+//   e.preventDefault();
+
+
+
+//   const endpoint = 'upload.php'
+//   const formData = new FormData()
+  
+
+//   console.log(inpFile.files)
+
+//   formData.append('inpFile', inpFile.files[0])
+
+//   fetch(endpoint, {
 //     method: 'POST',
 //     body: formData
-//   })
-//   .then(response => response.json())
-//   .then(data => {
-//     console.log(data.path)
-//   })
-//   .catch(error => {
-//     console.error(error)
-//   })
-// }
+//   }).catch(console.error);
+
+//  })
 
 // document.querySelector('#fileUpload').addEventListener('change', event => {
 //   handleImageUpload(event)

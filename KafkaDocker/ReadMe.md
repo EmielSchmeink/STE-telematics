@@ -2,7 +2,7 @@
 
 <ol>
     <li>
-        <h3><strong>Initilization of the Kafka container(s)</strong></h3>
+        <a id=Initialization_of_the_Kafka_container(s)><h3><strong>Initilization of the Kafka container(s)</strong></h3></a>
         <ol>
             <li>
                 Make sure to have Docker Desktop installed.
@@ -24,7 +24,7 @@
         </ol>
     </li>
     <li>
-        <h3><strong>Starting up Kafka</strong></h3>
+        <a id=Starting_up_Kafka><h3><strong>Starting up Kafka</strong></h3></a>
         <ol>
             <li>
                 Go to the containers menu in Docker Desktop.<br>
@@ -35,33 +35,39 @@
                 <img src="ReadMe_resources\docker_kafka_cli_button.png" alt="Missing image">
             </li>
             <li>
-                Execute the following command in the terminal to land in the right directory.
-                <blockquotes>cd ./opt/bitnami/kafka</blockquotes>
+                Execute the following command in the terminal to land in the right directory. <br>
+                <blockquote>cd ./opt/bitnami/kafka</blockquote>
             </li>
             <li>
-                <blockquotes></blockquotes>
+                Generate a random uuid for a cluster with this line.
+                <blockquote>./bin/kafka-storage.sh random-uuid </blockquote>
             </li>
             <li>
-                <blockquotes></blockquotes>
+                Replace &ltuuid&gt with the uuid received after executing the above command. It formats the storage directories. The line runs a cluster in single-node mode.
+                <blockquote>./bin/kafka-storage.sh format -t &ltuuid&gt -c ./config/kraft/server.properties</blockquote>
             </li>
             <li>
-                <blockquotes></blockquotes>
+                To start the Kafka server on a node run the line below. Note that each node has to be initialized like that.
+                <blockquote>./bin/kafka-server-start.sh ./config/kraft/server.properties</blockquote>
             </li>
             <li>
-                <blockquotes></blockquotes>
+                To create a topic named topic1:
+                <blockquote>./bin/kafka-topics.sh --create --topic topic1 --partitions 1 --replication-factor 1 --bootstrap-server localhost:9092</blockquote>
+                One can connect to port 9092 to perform administrative operations or produce or consume data. The port could be, of course, configured in a different way.
             </li>
         </ol>
     </li>
     <li>
-        <h3><strong>Kafka container files</strong></h3>
+        <a id=Kafka_container_files><h3><strong>Kafka container files</strong></h3></a>
     </li>
     <li>
-        <h3><strong>Networking</strong></h3>
+        <a id=Networking><h3><strong>Networking</strong></h3></a>
     </li>
     <li>
-        <h3><strong>Running basic producers and consumers</strong></h3>
+        <a id=Running_basic_producers_and_consumers><h3><strong>Running basic producers and consumers</strong></h3></a>
         <p>
-        Whatever text you write and send in the producer shell is going to appear in the consumer shell. Note that the topic name and/or the port could be different.
+        Whatever text you write and send in the producer shell is going to appear in the consumer shell. Note that the topic name and/or the port could be different.<br>
+        Each consumer and producer are best created in a separate Kafka terminal which can be opened following steps 1. and 2. in section <a href="#Starting_up_Kafka">2. Starting up Kafka</a>. 
         </p>
         <ul>
             <li>
@@ -94,7 +100,7 @@
         </ul>
     </li>
     <li>
-        <h3><strong>Taking down the Kafka container(s)</strong></h3>
+        <a id=Taking_down_the_Kafka_container(s)><h3><strong>Taking down the Kafka container(s)</strong></h3></a>
         <ol>
             <li>
                 Open an instance of Powershell on Windows or a terminal on Linux.

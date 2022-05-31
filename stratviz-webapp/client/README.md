@@ -33,6 +33,3 @@ React Tabs documentation: "https://github.com/reactjs/react-tabs"
 ## Video Tutorials
 React Crash Course by Traversy Media: "https://youtube.com/watch?v=w7ejDZ8SWv8" <br>
 Socket IO Crash Course by WebDevSimplified: "https://youtube.com/watch?v=ZKEqqIO7n-k"
-
-
-

@@ -7,7 +7,6 @@ public class Producer {
     public static void main(String[] args) {
 
         //Hard coded values for now
-        //TODO: Change these variables to read data from CAN-BUS
         String topicName = "Topic";
         //String key = "Key1";
         String value = "Value1";

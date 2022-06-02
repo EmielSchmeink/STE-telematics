@@ -31,7 +31,7 @@
                 <img src="ReadMe_resources\docker_containers_menu.png" alt="Missing image">
             </li>
             <li>
-                Open a terminal in Kafka's container.
+                Open a terminal in Kafka's container. More than 1 terminal can be open at the same time.
                 <img src="ReadMe_resources\docker_kafka_cli_button.png" alt="Missing image">
             </li>
             <li>
@@ -47,7 +47,7 @@
                 <blockquote>./bin/kafka-storage.sh format -t &ltuuid&gt -c ./config/kraft/server.properties</blockquote>
             </li>
             <li>
-                To start the Kafka server on a node run the line below. Note that each node has to be initialized like that.
+                To start the Kafka server on a node run the line below. Note that each node has to be initialized like that in its own terminal.
                 <blockquote>./bin/kafka-server-start.sh ./config/kraft/server.properties</blockquote>
             </li>
             <li>
@@ -88,11 +88,11 @@
                 <ul>
                     <li>
                         Internal
-                        <blockquote>kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic test --from-beginning</blockquote>
+                        <blockquote>kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic topic1 --from-beginning</blockquote>
                     </li>
                     <li>
                         External
-                        <blockquote>kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9093 --topic test --from-beginning</blockquote>
+                        <blockquote>kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9093 --topic topic1 --from-beginning</blockquote>
                     </li>
                 </ul>
                 The flag <em>--from-beginning</em> makes the consumer read the whole log of messages. Suppose the consumer's task is only to read the messages received after its initialization, the flag should be omitted.

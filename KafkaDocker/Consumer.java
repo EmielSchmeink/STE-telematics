@@ -40,5 +40,6 @@ public class Consumer {
             logger.info("Partition: "+record.partition() +", offset: "+record.offset());
         }
         
+        
     }
 }

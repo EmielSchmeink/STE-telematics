@@ -1,25 +1,35 @@
-package com.telematics;
+package com.ste; 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
+
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import com.opencsv.*;
 
 /**
- * The supplied default typedef file consists of three fields: Name - Code - Description
+ * The supplied default format files consists of multiple fields. 
  * 
- * These fields are seperated by commas (it's a CSV after all) but also by quotes. We have to be careful, 
- * as a Code field can contain commas within the field. 
- * Therefore we split by performing the following operations in this order: 
+ * These fields are seperated by semicolons but also by quotes and curly brackets. We have to be careful, 
+ * as a certain field can contain commas within this field, to denote the states a field can have. 
+ * Therefore we split the lines into their respective fields by using the semicolon as a delimiter, but we also have 
+ * to split some fields further into individual states. 
  * 
- * 1. Split by a comma, this get us 2 fields: the Name field and the Code + Description field
- * 2. Split by quotes, this subdivides the Code + Description field into a separate Code field and Description field
- * 
- * We can then further subdivide the Code field to allow us to read different values within a Code field
  */
 public class CANParser {
+
+    // Variable that has to be set in order to use a filepicker when browsing for a format file
+    static final boolean USE_FILEPICKER = false; 
 
     public List<ParsedMessage> parseMessagesDefault() {
         // Define our CSVReader variable which will be used to read a CAN_overview.csv file
@@ -29,9 +39,48 @@ public class CANParser {
         List<List<String>> arrayOfLines = null; 
 
         try { 
+            // THe default path where the format file resides. May be overridden if the filechooser is used
+            String filename = "canparser\\src\\res\\CAN_overview_2019_17-format.csv";
+            
+            // Read in the filename depending on whether we want to choose a file or just use the default one
+            if (USE_FILEPICKER) {
+                // Set up the filechooser 
+                JFileChooser jfc = new JFileChooser();
+                
+                jfc.setDialogTitle("Import CAN messages format file");
+                jfc.setApproveButtonText("Import format");
+                
+                // Restrict file extensions to the .csv extension
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV files", "csv");
+                jfc.setFileFilter(filter);
+
+                // Open the dialog
+                int returnVal;
+                boolean bExit = false; 
+
+                do {
+                    
+                    returnVal = jfc.showOpenDialog(null);
+
+                    if (returnVal == JFileChooser.CANCEL_OPTION) {
+                        System.out.println("Cancel pressed");
+                    } else if (returnVal == JFileChooser.ERROR_OPTION) {
+                        System.out.println("Error occurred");
+                    } else if (returnVal == JFileChooser.APPROVE_OPTION) {
+                        // A viable file was chosen by the user, save it as the filename
+                        filename = jfc.getSelectedFile().getAbsolutePath();
+                        
+                        // We can now exit the filechooser loop
+                        bExit = true; 
+                    }
+                    
+                } while(!bExit);
+
+                
+            } 
             // Instantiate a CSVReader object and use it to read the default messages file 
             reader = new CSVReaderBuilder(
-                new FileReader("CANParser\\src\\res\\CAN_overview_2019_17-format.csv"))
+                new FileReader(filename))
                 .withCSVParser(new CSVParserBuilder().withSeparator(';').build())
                 .build();
             
@@ -77,7 +126,7 @@ public class CANParser {
         try { 
             // Instantiate a CSVReader object and use it to read the default typedefs file
             reader = new CSVReaderBuilder(
-                new FileReader("CANParser\\src\\res\\CAN_typedef_2019_17-format.csv"))
+                new FileReader("canparser\\src\\res\\CAN_typedef_2019_17-format.csv"))
                 .withCSVParser(new CSVParserBuilder().withSeparator(';').build())
                 .build();
 
@@ -112,16 +161,13 @@ public class CANParser {
 
     public static void main(String[] args) {
         CANParser cp = new CANParser();
+
         List<ParsedTypedef> lpdf = cp.parseTypedefsDefault();
-        
         List<ParsedMessage> lpm = cp.parseMessagesDefault();
-
-        for (ParsedMessage pm : lpm) {
-            pm.prettyPrint();
-        }
-
-        for (ParsedTypedef ptd : lpdf) {
-            ptd.prettyPrint();
+        
+        // Test the output using the names of parsedMessage
+        for (ParsedMessage pm : lpm) { 
+            System.out.println(pm.getName());
         }
     }
 }

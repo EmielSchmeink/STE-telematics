@@ -1,4 +1,4 @@
-package com.telematics;
+package com.ste;
 
 import static org.junit.Assert.assertTrue;
 

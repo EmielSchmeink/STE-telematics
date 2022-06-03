@@ -1,4 +1,5 @@
-package com.telematics;
+package com.ste;
+
 /**
  * This class stores a single message that was parsed from 
  * a "CAN_overview_2019_17-format.csv" file

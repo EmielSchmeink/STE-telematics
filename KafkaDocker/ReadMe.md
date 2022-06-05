@@ -33,6 +33,11 @@
             <li>
                 Open a terminal in Kafka's container. More than 1 terminal can be open at the same time.
                 <img src="ReadMe_resources\docker_kafka_cli_button.png" alt="Missing image">
+                <strong>
+                    Alternatively, to skip the previous 2 steps, a terminal to a shell of the kafka container can be opened by running the following command in a shell of your choice on the host:
+                </strong>
+                <blockquote>docker exec -it kafka /bin/sh</blockquote>
+                The terminal in which you wrote the command is now connected to a shell of the kafka container.
             </li>
             <li>
                 Execute the following command in the terminal to land in the right directory. <br>
@@ -66,9 +71,12 @@
     <li>
         <a id=Running_basic_producers_and_consumers><h3><strong>Running basic producers and consumers</strong></h3></a>
         <p>
-        Whatever text you write and send in the producer shell is going to appear in the consumer shell. Note that the topic name and/or the port could be different.<br>
-        Each consumer and producer are best created in a separate Kafka terminal which can be opened following steps 1. and 2. in section <a href="#Starting_up_Kafka">2. Starting up Kafka</a>. 
+            Whatever text you write and send in the producer shell is going to appear in the consumer shell. Note that the topic name and/or the port could be different.<br>
+            Each consumer and producer are best created in a separate Kafka terminal which can be opened following steps 1. and 2. in section <a href="#Starting_up_Kafka">2. Starting up Kafka</a>. 
         </p>
+        <p>
+            Scripts have been created to automatically create producers and consumers. They are currently located in <code> KafkaDocker\Scripts\producer_consumer </code>
+        </pp>
         <ul>
             <li>
                 <h4><strong>Producer</strong></h4>

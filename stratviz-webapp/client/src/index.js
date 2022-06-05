@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 const { io, connect } = require('socket.io-client');
 
 const socket = io('http://localhost:3001');
-module.exports.socket = socket;
+//module.exports.socket = socket;
 
 socket.on("connect", () => {
   alert(`You are connected to the server with id: ${socket.id}`);

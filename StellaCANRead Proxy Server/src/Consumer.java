@@ -2,7 +2,8 @@ import java.util.*;
 import java.time.Duration;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class Consumer {
@@ -38,6 +39,7 @@ public class Consumer {
         for(ConsumerRecord<String, String> record: records){
             logger.info("key: "+record.key()+ ", Value:"+record.value());
             logger.info("Partition: "+record.partition() +", offset: "+record.offset());
+            System.out.println("Received message: (" + record.key() + ", " + record.value() + ") at offset " + record.offset());
         }
         
     }

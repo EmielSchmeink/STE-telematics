@@ -75,7 +75,7 @@
             Each consumer and producer are best created in a separate Kafka terminal which can be opened following steps 1. and 2. in section <a href="#Starting_up_Kafka">2. Starting up Kafka</a>. 
         </p>
         <p>
-            Scripts have been created to automatically create producers and consumers. They are currently located in <code> KafkaDocker\producer_consumer </code>
+            Scripts have been created to automatically create producers and consumers. They are currently located in <code> KafkaDocker\Scripts\producer_consumer </code>
         </pp>
         <ul>
             <li>

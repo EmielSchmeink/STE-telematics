@@ -1,4 +1,4 @@
-package com.ste;
+package CANParser.canparser.src.main.java.com.ste;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

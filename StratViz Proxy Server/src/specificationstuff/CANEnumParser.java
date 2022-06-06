@@ -28,6 +28,7 @@ package specificationstuff;
 import java.util.HashMap;
 import java.util.List;
 import java.util.HashMap;
+import CANParser.canparser.src.main.java.com.ste.*;
 
 public class CANEnumParser {
 	//The idea of this class is that we receive a CAN message such as the string 'testmsg' down below, and we convert it to a hashmap that contains the name of the variable
@@ -54,9 +55,8 @@ public class CANEnumParser {
 	//The hashmap that includes the transformed data.
 	static HashMap<String, CANTypedef> mapping = new HashMap<>();
 
-	//This method creates a hashmap of bytes, and each of the possible values that this byte can denote. E.g. a byte 00000000 could either represent a boolean 'true', or it 
-	//could alternatively, for another variable, denote a state 'Drive'. The hashmap will then contain {(00000000, true), (00000000, 'Drive')}. This method is used to parse
-	//the .CAN_Typedef_2019_17-format.csv files.
+	//This method creates a hashmap of hashmaps of the form <enumName, hashmap<bytesequence, state>>, where enumName is the name of the enumeration, and the nested hashmap contains all possible
+	//states that said enum with enumNume can have together with their unique bytesequence.
 	static void parseTypedef() {
 		String[] result = ACUdef.split(",");
 
@@ -99,16 +99,33 @@ public class CANEnumParser {
 
 	//takes a CAN message "(1600453413.322000) canx 12d#01c90100a819d400" and returns the string id. The id is represented by the characters after canx and before the #. In this
 	//example the id is denoted by 12d. Note: this is in hexadecimal. The id in this case is equal to 301.
-	public String parseID(String CANMessage) {
-		String temp = "id";
-		return temp;
+	public int parseID(String CANMessage) {
+		String[] split0 = CANMessage.split("x");
+		String[] split1 = split0[0].split(" ");  //split0[0] = " 12d#01c90100a819d400"
+		String[] split2 = split1[1].split("#");  //split1[1] = "12d#01c90100a819d400"
+		String idInHex = split2[0]; //take the 'left side' after splitting "12d#01c90100a819d400" on "#"
+		int ID = Integer.parseInt(idInHex,16); 
+
+		return ID;
 	}
 
 	//Takes a CAN message "(1600453413.322000) canx 12d#01c90100a819d400" and returns the timestamp associated with it.
-	public String parseTimestamp(String CANMessage) {
-		String temp = "timestamp";
-		return temp;
+	public long parseTimestamp(String CANMessage) {
+		String[] split0 = CANMessage.split(")"); 
+		String[] split1 = split0[0].split("(");//split0[0] = "(1600453413.322000", split1[1] = "1600453413.322000" 
+
+
+		long timestamp = Long.parseLong(split1[1]);
+		return timestamp;
 	}
+
+	// We need to deduce what data types (enum, bool, bool: 1, int etc.) reside within a signal. This information is found in the typedefs.csv file by searching on ID.
+	//Calculates one of the main parts of function parseOverview()
+	public String deduceDataTypes(int ID) {
+		return "temp";
+	}
+
+	
 
 	/*
 	 Using the ID of the message in combination with the CAN overview, we can figure out what data types are present in the current CAN message.
@@ -118,9 +135,10 @@ public class CANEnumParser {
 	 Note that ideally we'd like to have a list that contains multiple different types in a specific order. 
 	 It therefore probably shouldn't return a List of Strings, but see it as a placeholder.
 	 */
-	public List<String> parseOverview(int id, int timestamp, String CANOverview) {
+	public List<List<String>> parseOverview(int id, int timestamp, String CANOverview) {
 		List<String> temp = List.of("temp");
-		return temp;
+		List<List<String>> temp2 = List.of(temp);
+		return temp2;
 	}
 
 	
@@ -143,7 +161,7 @@ public class CANEnumParser {
 	so those can be translated directly. The result should look as follows: 
 
 	{
-   "timestamp": "20:33:20"
+   "timestamp": "(1600453413.322000)"
    "name": "ACU_KeepAlive",
    "fields": [
 	"ACU_Mode mode": "ACUModeRDW",

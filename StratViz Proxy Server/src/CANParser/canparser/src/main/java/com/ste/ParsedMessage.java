@@ -1,4 +1,4 @@
-package com.ste;
+package CANParser.canparser.src.main.java.com.ste;
 
 /**
  * This class stores a single message that was parsed from 

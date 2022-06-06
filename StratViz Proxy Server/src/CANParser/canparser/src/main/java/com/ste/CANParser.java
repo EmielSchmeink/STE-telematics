@@ -13,7 +13,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import com.opencsv.*;
 
@@ -40,7 +39,7 @@ public class CANParser {
 
         try { 
             // THe default path where the format file resides. May be overridden if the filechooser is used
-            String filename = "canparser\\src\\res\\CAN_overview_2019_17-format.csv";
+            String filename = "canparser\\src\\res\\messages.csv";
             
             // Read in the filename depending on whether we want to choose a file or just use the default one
             if (USE_FILEPICKER) {
@@ -78,10 +77,11 @@ public class CANParser {
 
                 
             } 
+            
             // Instantiate a CSVReader object and use it to read the default messages file 
             reader = new CSVReaderBuilder(
                 new FileReader(filename))
-                .withCSVParser(new CSVParserBuilder().withSeparator(';').build())
+                .withCSVParser(new CSVParserBuilder().withSeparator(',').build())
                 .build();
             
             // Create two variables that will hold our csv lines. 
@@ -108,8 +108,8 @@ public class CANParser {
             ParsedMessage pm = new ParsedMessage(
             line.get(0), line.get(1), line.get(2), line.get(3),
             line.get(4), line.get(5), line.get(6), line.get(7),
-            line.get(8), line.get(9), line.get(10),line.get(11), 
-            line.get(12), line.get(13), line.get(14), line.get(15));
+            line.get(8), line.get(9), line.get(10) ,line.get(11), 
+            line.get(12), line.get(13));
 
             parsedMessages.add(pm);
         }
@@ -126,8 +126,8 @@ public class CANParser {
         try { 
             // Instantiate a CSVReader object and use it to read the default typedefs file
             reader = new CSVReaderBuilder(
-                new FileReader("canparser\\src\\res\\CAN_typedef_2019_17-format.csv"))
-                .withCSVParser(new CSVParserBuilder().withSeparator(';').build())
+                new FileReader("canparser\\src\\res\\typedefs.csv"))
+                .withCSVParser(new CSVParserBuilder().withSeparator(',').build())
                 .build();
 
             // Create two variables that will hold our csv lines. The arraylist will store the entries for future use
@@ -164,10 +164,34 @@ public class CANParser {
 
         List<ParsedTypedef> lpdf = cp.parseTypedefsDefault();
         List<ParsedMessage> lpm = cp.parseMessagesDefault();
+
+
+        // Do some basic testing. NB: not a substitution for unit tests!!
+        final boolean PARSER_DEBUG = true;
+
+        if (PARSER_DEBUG) {
+            // Test the parsing of the Typedefs file by printing its name and the possible states for that typedef
+            for (ParsedTypedef pdf : lpdf) {
+                System.out.print("Name: " + pdf.getName() + "\nStates: | " );
+                for (String s : pdf.getCodeStates()) {
+                    System.out.print(s + " ");
+                }
+                System.out.println("|");System.out.println();
+            }
+        }
         
-        // Test the output using the names of parsedMessage
-        for (ParsedMessage pm : lpm) { 
-            System.out.println(pm.getName());
+        if (PARSER_DEBUG) {
+            // Test the parsing of the messages.csv file by printing its name, the field names/default values and a description for that message
+            for (ParsedMessage pm : lpm) { 
+                System.out.println("Name: " + pm.getName());
+                System.out.print("Field Names/Default value: ");
+                for (int i = 0; i < pm.getFieldNames().length; i++) {
+                    System.out.print(" | " + pm.getFieldNames()[i] + " - " + pm.getDefaultValues()[i] + " | ");
+                }
+                System.out.println();
+                System.out.println("Description: " + pm.getDescription());
+                System.out.println();
+            }
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.ste;
 
+import java.util.ArrayList;
+
 /**
  * This class stores a single message that was parsed from 
  * a "CAN_overview_2019_17-format.csv" file
@@ -19,70 +21,64 @@ public class ParsedMessage {
     // Declare all fields as String variables
     private String id; 
     private String name; 
-    private String dataNames; 
-    private String dataTypes;
-    private String dataUnits;
-    private String standardValues;
-    private String log;
-    private String putToCan1;
-    private String putToCan2;
+    private String[] fieldNames; 
+    private String[] dataTypes;
+    private String[] units;
+    private String[] defaultValues;
     private String description;
-    private String sender;
-    private String receiver;
-    private String toStrat;
-    private String toVis;
-    private String notToDB;
-    private String convertEndianness;
+    private String[] senders;
+    private String[] receivers;
+    private String sendInterval;
+    private String convertEndianess;
+    private String type;
+    private String properties;
+    private String sendFrequency;
 
     // A bit messy, but set up a ParsedMessage object and define its instance variables
-    public ParsedMessage(String id, String name, String dataNames, String dataTypes, String dataUnits,
-    String standardValues, String log, String putToCan1, String putToCan2, String description,
-    String sender, String receiver, String toStrat, String toVis, String notToDB, String converEndianness) {
+    public ParsedMessage(String id, String name, String fieldNames, String dataTypes, String units, String defaultValues,
+                        String description, String senders, String receivers, String sendInterval, String convertEndianess, 
+                        String type, String properties, String sendFrequency) {
         this.id = id;
-        this.name = name;
-        this.dataNames = dataNames;
-        this.dataTypes = dataTypes;
-        this.dataUnits = dataUnits;
-        this.standardValues = standardValues;
-        this.log = log; 
-        this.putToCan1 = putToCan1;
-        this.putToCan2 = putToCan2;
-        this.description = description;
-        this.sender = sender;
-        this.receiver = receiver; 
-        this.toStrat = toStrat;
-        this.toVis = toVis;
-        this.notToDB = notToDB;
-        this.convertEndianness = converEndianness;
+        this.name = name; 
+        this.fieldNames = fieldNames.split(",");
+        this.dataTypes = dataTypes.split(",");
+        this.units = units.split(",");
+        this.defaultValues = defaultValues.split(",");
+        this.description = description; 
+        this.senders = senders.split(",");
+        this.receivers = receivers.split(",");
+        this.sendInterval = sendInterval;
+        this.convertEndianess = convertEndianess;
+        this.type = type;
+        this.properties = properties;
+        this.sendFrequency = sendFrequency;
     }
 
-    // 
+
     public void prettyPrint() {
         System.out.println("-------------------------------------------------------");
         System.out.println("| Pretty printing all values for " + this.name.toUpperCase());
         System.out.println("| +++++++++++++++++++++++++++++++++++++++++++++++++++++");
         System.out.println("| ID: " + this.id);
         System.out.println("| Name: " + this.name);
-        System.out.println("| Data Names: " + this.dataNames);
+        System.out.println("| Field Names: " + this.fieldNames);
         System.out.println("| Data Types: " + this.dataTypes);
-        System.out.println("| Data Units: " + this.dataUnits);
-        System.out.println("| Standard Values: " + this.standardValues);
-        System.out.println("| Log: " + this.log);
-        System.out.println("| PutToCan1: " + this.putToCan1);
-        System.out.println("| PutToCan2: " + this.putToCan2);
+        System.out.println("| Units: " + this.units);
+        System.out.println("| Default Values: " + this.defaultValues);
         System.out.println("| Description: " + this.description);
-        System.out.println("| Sender: " + this.sender);
-        System.out.println("| Receiver: " + this.receiver);
-        System.out.println("| ToStrat: " + this.toStrat);
-        System.out.println("| ToVis: " + this.toVis);
-        System.out.println("| NotToDB: " + this.notToDB);
-        System.out.println("| Convert Endianness: " + this.convertEndianness);
+        System.out.println("| Senders: " + this.senders);
+        System.out.println("| Receivers: " + this.receivers);
+        System.out.println("| Send Interval: " + this.sendInterval);
+        System.out.println("| Convert Endianness: " + this.convertEndianess);
+        System.out.println("| Type: " + this.type);
+        System.out.println("| Properties: " + this.properties);
+        System.out.println("| Send Frequency: " + this.sendFrequency);
         System.out.println("| +++++++++++++++++++++++++++++++++++++++++++++++++++++");
         System.out.println("-------------------------------------------------------");
     }
 
     // Basic getters for all instance variables are found below
-    public String getID() {
+    public String getId() {
         return this.id;
     }
 
@@ -90,60 +86,52 @@ public class ParsedMessage {
         return this.name;
     }
 
-    public String getDataNames() {
-        return this.dataNames;
+    public String[] getFieldNames() {
+        return this.fieldNames;
     }
 
-    public String getDataTypes() {
-        return this.getDataTypes();
+    public String[] getDataTypes() {
+        return this.dataTypes;
     }
 
-    public String getDataUnits() {
-        return this.getDataUnits();
+    public String[] getUnits() {
+        return this.units;
     }
 
-    public String getStandardValues() {
-        return this.getStandardValues();
-    }
-
-    public String getLog() {
-        return this.log;
-    }
-
-    public String getPutToCan1() {
-        return this.putToCan1;
-    }
-
-    public String getPutToCan2() {
-        return this.putToCan2;
+    public String[] getDefaultValues() {
+        return this.defaultValues;
     }
 
     public String getDescription() {
         return this.description;
     }
 
-    public String getSender() {
-        return this.sender;
+    public String[] getSenders() {
+        return this.senders;
     }
 
-    public String getReceiver() {
-        return this.receiver;
+    public String[] getReceivers() {
+        return this.receivers;
     }
 
-    public String getToStrat() {
-        return this.toStrat;
+    public String getSendInterval() {
+        return this.sendInterval;
     }
 
-    public String getToVis() {
-        return this.toVis;
+    public String getConvertEndianness() {
+        return this.convertEndianess;
     }
 
-    public String getNotToDB() {
-        return this.notToDB;
+    public String getType() {
+        return this.type;
     }
 
-    public String getConvertEndianess() {
-        return this.convertEndianness;
+    public String getProperties() {
+        return this.properties;
+    }
+
+    public String getSendFrequency() {
+        return this.sendFrequency;
     }
 
 }

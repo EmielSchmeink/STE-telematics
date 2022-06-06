@@ -1,0 +1,400 @@
+ID,Name,Field names,Data types,Units,Default values,Description,Senders,Receivers,Send interval,Convert endianness,Type,Properties,Send frequency
+Version (major / minor):,2,35,,,,,,,,,,,
+0,CANOpen_NMT,"command, node","CANOpenNMTCommand, uint8_t","command, node ID","CANOpenNMTCommand::Null, 0",CANopen NMT command,ACU,"SAC, BAC",,1,A,,0
+1,LVC_VehicleState,"lvcState, state, error","LVCState, VehicleState, LVCError","lvcState, state, error","LVCState::Initializing, VehicleState::Standby, LVCError::None",The state of the vehicle,LVC,"BMS, BoC",,1,A,,1
+2,LVC_Shutdown,"errcode, ctr","uint32_t, uint8_t","code, code","0, 0",State of the LVC,LVC,,,0,A,,1
+10,BMS_State,"mainState, imdState, coolingLimitState, coolingControlState, battfrontState, canControllerState, error, _dummy","BMSState, IMDState, BMSCoolingLimit, OnOff, OnOff, OnOff, BMSError, bool","BMS state, IMD state, Cooling limit state, on/off, on/off, on/off, error, dontcare","BMSState::ESS, IMDState::Off, BMSCoolingLimit::Charging, OnOff::Off, OnOff::Off, OnOff::On, BMSError::None, false",Main states of the BMS state machine,BMS,,10,1,A,,10
+11,BMS_IMDStatus,"insulationValue, frequencyHz, state","uint32_t, uint16_t, IMDMeasurement","kOhm, Hz, state","0, 0, IMDMeasurement::NoData","Current IMD state,  IMD operating frequency,  IMD measured insulation according to bender datasheet",BMS,MK5,10,1,A,,5
+12,BMS_MinMaxCellVoltage,"minCellVoltage, maxCellVoltage, minCellNumber, maxCellNumber, maxNonAdjacentBalancedCellVoltage","uint16_t, uint16_t, uint8_t, uint8_t, uint16_t","mV, mV, -, -, mV","0, 0, 0, 0, 0","Minimal & Maximal  Battery MetaCell Voltages  including cell identification Identification starts from 0 on top battery layer, from 100 on middle battery layer and 200 on bottom battery layer ",BMS,FUC,20,1,A,,10
+13,BMS_MinMaxCellTemp,"minCellTemperature, maxCellTemperature, minNTCNumber, maxNTCNumber","int16_t, int16_t, uint8_t, uint8_t","c°C, c°C, -, -","0, 0, 0, 0","Minimal & Maximal  Battery MetaCell Temperatures  including cell identification Identification starts from 0 on top battery layer, from 100 on middle battery layer and 200 on bottom battery layer ",BMS,FUC,20,1,A,,10
+20,ACU_DNR,dnr,DNR,DNR,DNR::Unknown,Current DNR state of the ACU,ACU,FUC,5,1,A,,10
+21,ACU_OperationMode,mode,OperationMode,Operation mode,OperationMode::Unknown,Current operation mode of the ACU,ACU,FUC,5,1,A,,10
+22,ACU_MotorControlState,"mode, hillAssistActive, leftInverterAlive, rightInverterAlive, leftInverterError, rightInverterError, throttlePedalOK, brakePedalOK, leftInvInternalOverTemperature, leftInvMotorOverTemperature, leftInvOvercurrent, leftInvUndercurrent, leftInvOvervoltage, leftInvUndervoltage, rightInvInternalOverTemperature, rightInvMotorOverTemperature, rightInvOvercurrent, rightInvUndercurrent, rightInvOvervoltage, rightInvUndervoltage, leftInverterStatus, rightInverterStatus","MotorControlMode, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, InverterStatus, InverterStatus","mode, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, status, status","MotorControlMode::Manual, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, InverterStatus::Unknown, InverterStatus::Unknown",Contains the motor control state of the ACU,ACU,,10,1,A,,5
+23,ACU_CruiseControl,"setpoint, state","float, ControlState","m/s, state","0.f, ControlState::Unknown",Contains the current state of the cruise control,ACU,SSB,10,1,A,,5
+24,ACU_PedalFaults,"throttlePedalsDifferent, throttle1AOB, throttle2AOB, brakePedalsDifferent, brake1AOB, brake2AOB","bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1","T/F, T/F, T/F, T/F, T/F, T/F","0, 0, 0, 0, 0, 0",Contains any faults in the pedal measurements,ACU,FUC,100,1,A,,5
+25,ACU_Lights,"brakeLight, reverseLight","bool: 1, bool: 1","T/F, T/F","0, 0",Contains whether the lights controlled by the ACU should be enabled,ACU,RAUX,5,1,A,,10
+30,PvC_Output,"voltage, current","float, float","V, A","0.f, 0.f",Voltage and current output of the PvC,PvC,"ChC, BoC",5,1,A,,10
+60,SSB_Lights,"lights,fogLight,leftIndicator,rightIndicator","LightingState,bool: 1, bool: 1, bool: 1","State, On/Off, On/Off, On/Off","LightingState::Off, false, false, false",Current lighting state according to the SSB,SSB,"FUC, RAUX",5,1,A,,40
+61,SSB_PedallessRegen,"amount, enable","float, bool","-, T/F","0.f, 0",Allows for regenerative braking through input on the steering wheel,SSB,ACU,,1,A,,0
+62,SSB_HumanInput,humanInput,bool,T/F,0,Whether a hand is present on the steering wheel,SSB,ACU,20,1,A,,10
+70,BB_ActuationState,enable,bool,T/F,0,Whether the Blue box wants actuation control to be enabled,BB,ACU,,1,A,,10
+71,BB_SetPoint,"steeringAngle, velocity, acceleration, reverse","int16_t, int16_t, int16_t, bool","deg, mm/s, mm/s^2, T/F","0, 0, 0, false",Target kinematic setpoint for the actuators,BB,ACU,1,1,A,,20
+75,AVC_Faults,"disabledByTemperature, disabledByInputVoltage, disabledByOutputVoltage, disabledByOutputCurrent, disabledByKillswitch","bool: 1, bool: 1, bool: 1, bool: 1, bool: 1","T/F, T/F, T/F, T/F, T/F","false, false, false, false, false",Whether any faults occurred during normal operation of the AVC,AVC,,1,1,A,,10
+101,LVC_InterlockOK,"imdOk, hvilOk","bool, bool","T/F, T/F","0,0",Indicates the IMD OK and HVIL OK signals.,LVC,,,1,A,,10
+102,LVC_EmergencyState,inEmergencyState,bool,T/F,0,Whether or not the car is in emergency state. Which is the case if any of the emergency buttons is pressed.,LVC,,,1,A,,1
+103,LVC_AOPSUPower,"current, voltage","uint16_t, uint16_t","mV, mA","0,0",Current drawn from the standby AOPSU. Voltage created by the AOPSU,LVC,,,1,A,,500
+104,LVC_LVPower,"current, voltage","uint16_t, uint16_t","mV, mA","0,0","Indicates the current flow after the LV converters, measured by the LV_CUR_ADC. Voltage after the LV converters, measured by LV_V_ADC",LVC,,,1,A,,500
+105,LVC_BMSHVOk,bmsHVOK,bool,T/F,0,Indicates whether or not the BMS HV OK signal is high.,LVC,,,1,A,,30
+106,LVC_HVUnderVoltage,HVInBoundaries,bool,T/F,0,Indicates whether or not the HV voltage is within safe operating boundaries.,LVC,,,1,A,,30
+107,LVC_StandbyPSUConnected,psuConnected,bool,T/F,0,Indicates whether the Standby PSU is connected to the LVC and is within normal operation bounds.,LVC,,,1,A,,10
+108,LVC_NTC1,temp,int16_t,ddegC,0,Temperature measured by NTC1 in dC,LVC,,,1,A,,10
+109,LVC_NTC2,temp,int16_t,ddegC,0,Temperature measured by NTC2 in dC,LVC,,,1,A,,10
+110,LVC_NTC3,temp,int16_t,ddegC,0,Temperature measured by NTC3 in dC,LVC,,,1,A,,10
+111,LVC_NTC4,temp,int16_t,ddegC,0,Temperature measured by NTC4 in dC,LVC,,,1,A,,10
+112,LVC_ConvCount,convsEnabled,uint8_t,-,0,Emits the number of converters currently turned on. Should not be used for timing of the converter count changes. That can be obtained from the LVStatus message.,LVC,,,1,A,,1
+113,LVC_TimeoutSensor,ignoreMe,bool,T/F,0,Used to wake an actuator that has to act based on a timeout.,LVC,,,1,A,,0
+114,LVC_KeyStatus,keyStatus,KeyStatus,Key status,KeyStatus::Off,Indicates the position of the key,LVC,,,1,A,,10
+115,LVC_Version,"controller_major_version, controller_minor_version, eslib_major_version, eslib_minor_version, csv2cpp_major_version, csv2cpp_minor_version","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","-,-,-,-,-,-","0,0,0,0,0,0",For logging/debugging,LVC,,,1,A,,0
+116,LVC_EnableBMSCooling,enable,bool,T/F,0,Contains whether the BMS should enable cooling due to the LVC registering a temperature which is too high,LVC,BMS,,1,A,,0
+199,LVC_EnableLVCFan,enableFan,bool,T/F,0,This message can be used to enable the LVC Fan manually. It could be send from the strategy van to enable the Fan in dire situations to prevent disaster.,LVC,,,1,A,,0
+128,CANOpen_SYNC,,,,,CANopen SYNC message,ACU,"SAC, BAC",,1,A,,0
+129,SAC_EMCY,"errorCode, errorRegister, vendorData1, vendorData2","uint16_t, uint8_t, uint8_t, uint32_t","-, -, -, -","0, 0, 0, 0",CANOpen EMCY object for the steering actuator,SAC,ACU,,0,A,,0
+130,BAC_EMCY,"errorCode, errorRegister, vendorData1, vendorData2","uint16_t, uint8_t, uint8_t, uint32_t","-, -, -, -","0, 0, 0, 0",CANOpen EMCY object for the braking actuator,BAC,ACU,,0,A,,0
+200,BMS_SubStates,"essSubState, satStartupState, ivtStartupState, balancingState, cellOvervoltageState, uvRecoveryState","BMSESSSubState, SatelliteStartupState, IVTStartupState, BMSBalancingState, CellOvervoltageLimit, UVRecoveryState","ESS substate, satellite startup state, IVT startup state, balancing state, cell overvoltage state, undervoltage recovery state","BMSESSSubState::Ready, SatelliteStartupState::None, IVTStartupState::None, BMSBalancingState::None, CellOvervoltageLimit::None, UVRecoveryState::None",Sub-states of the BMS state machine,BMS,,100,1,A,,10
+201,BMS_Inputs,"estop, hvilOk, hvilMid, imdOk, ivtOCS, satFaultInt, hvAuxNeg, hvAuxPos, hvContNegMeas, hvContPosMeas, lvcWake","bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1","high/low,high/low,high/low,high/low,high/low,high/low,high/low,high/low,high/low,high/low,high/low","0,0,0,0,0,0,0,0,0,0,0",Input measurements by the BMS state machine,BMS,,20,1,A,,20
+202,BMS_OverridesAndContactors,"hvilOverridden, imdOverridden, ivtOCSOverridden, enableNeg, enablePos, dischargeOff","bool,bool,bool,bool,bool,bool","T/F, T/F, T/F, T/F, T/F, T/F","0, 0, 0, 0, 0, 0",Whether the overrides of the BMS are active and whether contactors are enabled,BMS,,100,1,A,,10
+203,BMS_ContinuousCharging,"maxChargingCurrent, chargingAllowed, cellOverVoltageLimited, overTemperatureLimited","uint32_t, bool, bool:1, bool:1","mA, T/F, T/F, T/F","0, 0, 0, 0","Whether continuous charging is allowed, at which current, and the reason why it isn't allowed if it isn't",BMS,"ChC, PvC",100,1,A,,10
+204,BMS_PeakPower,"allowPeakCharging, allowPeakDischarging","bool, bool","T/F, T/F","0, 0",Whether regenerative braking and high motor power current is allowed,BMS,ACU,100,1,A,,10
+205,BMS_Current,current,float,A,0.f,Battery current as given by the IVT,BMS,"ChC, PvC",5,1,A,,10
+207,BMS_BatteryPower,power,float,W,0.f,Battery power usage,BMS,MK5,10,1,A,,5
+208,BMS_SatInterfaceState,"state, error, nSats, satTimeoutCounter, satOK, undervoltage, overvoltage, auxUndervoltage, auxOvervoltage, comparatorUndervoltage, comparatorOvervoltage, communicationFault, systemFault, chipFault, gpiFault","BMSSatState, BMSSatError, uint8_t, uint8_t, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1","state, error, -, -, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F","BMSSatState::Unknown, BMSSatError::Unknown, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0",State of the BMS sat board interface,BMS,,40,1,A,,5
+209,BMS_SatBalancingState,"sat1VoltageComparison, sat2VoltageComparison, sat3VoltageComparison","uint16_t, uint16_t, uint16_t","bit array, bit array, bit array","0, 0, 0",Balancing status of the BMS satellite boards containin the voltage comparisons,BMS,,40,1,A,,5
+210,BMS_SatInterfaceControl,"activate, enableRecoveryUVThreshold","bool: 1, bool: 1","T/F, T/F","0, 0",Control parameters for the BMS sat interface,BMS,,200,1,A,,5
+211,BMS_SatBalancingControl,"sat1BalancingChannels, sat2BalancingChannels, sat3BalancingChannels, balancingThresholdVoltage","uint16_t, uint16_t, uint16_t, uint16_t","bit array, bit array, bit array, mV","0,0,0,0",Control parameters for the BMS sat interface related to balancing,BMS,,200,1,A,,5
+212,BMS_SoCSoH,"soc, soh","float, float","%, %","0.f, 0.f","Battery State of Charge per %,  Battery State of Health per %",BMS,"FUC, BoC",10,1,A,,5
+213,BMS_SatPCBTemperatures,"sat1pcbTemperature, sat2pcbTemperature, sat3pcbTemperature","int16_t, int16_t, int16_t","c°C, c°C, c°C","0, 0, 0","Sat Board PCB Temperatures, used to discover hot pcb for instance when balancing",BMS,,40,1,A,,5
+214,BMS_SatPCBVoltages,"sat1pcbVoltage, sat2pcbVoltage, sat3pcbVoltage","uint16_t, uint16_t, uint16_t","mV, mV, mV","0, 0, 0","Sat Board PCB Voltage, used to know which stack voltage is highest and lowest",BMS,,40,1,A,,5
+215,BMS_Version,"swMajor, swMinor, eslibMajor, eslibMinor, cliMajor, cliMinor","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","#, #, #, #, #, #","0, 0, 0, 0, 0, 0",BMS version message,BMS,,,1,A,,0
+216,BMS_PCBTemperatures,"ntc1, ntc2, ntc3","int16_t, int16_t, int16_t","c°C, c°C, c°C","0, 0, 0",PCB temperatures measured by the NTC's on the BMS,BMS,,200,1,A,,5
+217,BMS_HVMeasurements,"batteryVoltage, busVoltage","float, float","V, V","0.f, 0.f",Voltage measurements of the battery and the bus as received from the IVT,BMS,,100,1,A,,10
+218,BMS_IVTOCSettings,"state, chargingLimit, dischargingLimit","IVTLimitState, IVTChargingLimitSetting, IVTDischargingLimitSetting","state, state, state","IVTLimitState::IVTOff, IVTChargingLimitSetting::IVTOff, IVTDischargingLimitSetting::IVTOff",Settings of the IVT current thresholds,BMS,,200,1,A,,5
+219,BMS_ContactorHistory,"ocs_timer, prerelay, pos, neg","uint32_t, bool:1, bool:1, bool:1","us, T/F, T/F, T/F","0,0,0,0",Contactor history on the BMS,BMS,,500,1,A,,5
+220,BMS_IVTDebugging,"rdErrorCount, tdErrorCount, written","uint8_t, uint8_t, uint8_t","-, -, -","0, 0, 0",Debugging data for the IVT issue on the BMS,BMS,,200,1,A,,5
+221,BMS_CoulombCounter,counter,int64_t,As,0,Coulomb counter of the BMS,BMS,,10,1,A,,5
+222,BMS_WhCounter,counter,int64_t,Wh,0,Cumulative Wh counter of the BMS,BMS,,10,1,A,,5
+231,BMS_ResetCoulombCounter,counter,int64_t,As,0,"Reset value for the coulomb counter of the BMS, can only be written while in ESS",BMS Servicing,BMS,,1,A,,0
+232,BMS_ResetWhCounter,counter,int64_t,As,0,"Reset value for the Wh counter of theBMS, can only be written while in ESS",BMS Servicing,BMS,,1,A,,0
+233,BMS_IVTErrorMask,"measDB2, measDB3, sysDB2, sysDB3","uint8_t, uint8_t, uint8_t, uint8_t","-,-,-,-","0,0,0,0",Error bits of the IVT,BMS,,,1,A,,0
+234,BMS_IMDStatusLatched,"insulationValue, frequencyHz, state","uint32_t, uint16_t, IMDMeasurement","kOhm, Hz, state","0, 0, IMDMeasurement::NoData",Contents of the BMS_IMDStatus message during Shutdown state. This message is ONLY updated when the IMD interface is in Shutdown state,BMS,MK5,100,1,A,,5
+240,BMS_GitInfo,"hash,controllerRepoState,eslibRepoState,canspecRepoState","uint32_t,RepoState,RepoState,RepoState","-,-,-,-","0,RepoState::Unknown,RepoState::Unknown,RepoState::Unknown",Git repository state of the BMS,BMS,,,1,A,,5
+241,BMS_BuildTimeStamp,"year,month,day,hour,minute","uint16_t,Month,uint8_t,uint8_t,uint8_t","year,month,day,hour,minute","0,Month::Unknown,0,0,0",Timestamp of the build of the current BMS binary,BMS,BMS,,1,A,,0
+300,ACU_Version,"swMajor, swMinor, eslibMajor, eslibMinor, cliMajor, cliMinor","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","#, #, #, #, #, #","0, 0, 0, 0, 0, 0",ACU version message,ACU,,,1,A,,0
+301,ACU_Keepalive,"mode, bmsAlive, ssbAlive, srvRegenAlive, esbAlive, inverter","ACUMode, bool: 1, bool: 1, bool: 1, bool: 1, InverterType","Mode, T/F, T/F, T/F, T/F, Inverter type","ACUMode::WSC, 0, 0, 0, 0, InverterType::Unknown",Keepalive and mode of the ACU,ACU,,10,1,A,,5
+302,ACU_Regenerative,"amount, enabled","float, bool : 1","0-1, T/F","0.f, 0",Whether regenerative braking is enabled or not and the amount with which there is currently being braked regeneratively,ACU,BoC,10,1,A,,5
+303,ACU_Pedals,"throttle, brake","float, float","-, -","0.f, 0.f",Fused pedal measurements,ACU,,10,1,A,,5
+304,ACU_PedalRegenerative,pedalRegenAmount,float,0-1,0.f,Amount of regenerative braking according to the pedal,ACU,,10,1,A,,5
+305,ACU_ThrottlePedal,"sensor1, sensor2","float, float","-, -","0.f, 0.f",Measurement of both throttle pedal sensors,ACU,,50,1,A,,0
+306,ACU_BrakePedal,"sensor1, sensor2","float, float","-, -","0.f, 0.f",Measurement of both brake pedal sensors,ACU,,50,1,A,,0
+307,ACU_BrakingSystemStatus,"pressure, brakingSystemOK, handbrakeActive","float, bool: 1, bool: 1","?, T/F, T/F","0.f, false, false","Pressure measured in the braking system, and whether the system is OK",ACU,"FUC, BoC",5,1,A,,10
+320,ACU_MotorPower,"left, right","float, float","W, W","0.f, 0.f",Power measurement of both motors,ACU,,5,1,A,,10
+321,ACU_MotorTemperature,"left, right","float, float","deg C, deg C","0.f, 0.f",Temperature measurement of both motors,ACU,,50,1,A,,1
+322,ACU_InverterTemperature,"left, right","float, float","deg C, deg C","0.f, 0.f",Temperature measurement of both inverters,ACU,,50,1,A,,1
+323,ACU_InverterLimitFlags,"leftMotorDerated, leftInverterDerated, leftMotorTempLimit, leftInverterTempLimit, leftCurrentLimit, pad1, rightMotorDerated, rightInverterDerated, rightMotorTempLimit, rightInverterTempLimit, rightCurrentLimit, pad2","bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, uint16_t: 11, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, uint16_t: 11","b,b,b,b,b,p,b,b,b,b,b,p","0,0,0,0,0,0,0,0,0,0,0,0",Limit flags of the inverters,ACU,,10,1,A,,5
+330,ACU_VelocitySetpoint,setpoint,float,m/s,0.f,Current setpoint used for longitudinal motion control on the ACU,ACU,,10,1,A,,5
+331,ACU_CCControllerState,"error, integrator","float, float","m/s, m","0.f, 0.f",Current state of the PI Cruise Control feedback controller,ACU,,10,1,A,,5
+332,ACU_CCControllerParams,"kp, ki","float, float","-, -","0.f, 0.f",Cruise Control PI feedback controller tuning parameters,ACU,,50,1,A,,1
+340,ACU_DSSStatus,"state, killswitchActive","ControlState, bool: 1","control state, T/F","ControlState::Unknown, true",Control state for DSS on the ACU,ACU,"BB, AVC",5,1,A,,20
+341,ACU_DSSPrecheckErrors,"nErrs, error1, error2, error3, error4, error5, error6, error7","uint8_t, DSSPrecheckError, DSSPrecheckError, DSSPrecheckError, DSSPrecheckError, DSSPrecheckError, DSSPrecheckError, DSSPrecheckError","n, error, error, error, error, error, error, error","0, DSSPrecheckError::None, DSSPrecheckError::None, DSSPrecheckError::None, DSSPrecheckError::None, DSSPrecheckError::None, DSSPrecheckError::None, DSSPrecheckError::None",Errors that occurred during DSS precheck,ACU,BB,50,1,A,,1
+342,ACU_DSSActuationErrors,"nErrs, error1, error2, error3, error4, error5, error6, error7","uint8_t, DSSActuationError, DSSActuationError, DSSActuationError, DSSActuationError, DSSActuationError, DSSActuationError, DSSActuationError","n, error, error, error, error, error, error, error","0, DSSActuationError::None, DSSActuationError::None, DSSActuationError::None, DSSActuationError::None, DSSActuationError::None, DSSActuationError::None, DSSActuationError::None",Errors that occurred during DSS actuation,ACU,BB,50,1,A,,1
+343,ACU_CANOpenInterfaceControl,enable,bool,T/F,false,Control message for the ACU CANopen interface,ACU,,10,1,A,,5
+344,ACU_CANOpenInterfaceState,state,CANOpenInterfaceState,state,CANOpenInterfaceState::Off,Current state of the ACU CANopen interface,ACU,,10,1,A,,5
+345,ACU_SACState,"nodeState, interfaceState","CANOpenNodeState, CANOpenInterfaceDeviceState","state, state","CANOpenNodeState::Unknown, CANOpenInterfaceDeviceState::Unknown",State of the steering actuator CANopen node,ACU,,10,1,A,,5
+346,ACU_BACState,"nodeState, interfaceState","CANOpenNodeState, CANOpenInterfaceDeviceState","state, state","CANOpenNodeState::Unknown, CANOpenInterfaceDeviceState::Unknown",State of the steering actuator CANopen node,ACU,,10,1,A,,5
+347,ACU_DSSActuation,"state, error, startingState, enableInverters, inverterSetpoint","DSSActuationState, DSSControllerError,DSSControllerStartingStage, bool, float","state, error, stage, T/F, 0-1","DSSActuationState::Unknown, DSSControllerError::None, DSSControllerStartingStage::None, false, 0.f",State of the DSS control component and setpoint of the DSS component to the inverters,ACU,,10,1,A,,5
+348,ACU_EnableDSSVoltage,enable,bool,T/F,0,Indication from the ACU to the LVC on whether the DSS actuator voltage should be enabled,ACU,LVC,5,1,A,,10
+349,ACU_PlanarAcceleration,"x, y","float, float","m/s^2, m/s^2","0.f, 0.f",X and Y components of the acceleration vector measured by the ACU,ACU,,5,1,A,,10
+350,ACU_BrakingPrecheck,state,BrakingPrecheckState,state,BrakingPrecheckState::Unknown,Braking precheck state,ACU,BB,10,1,A,,5
+351,ACU_BrakingPressure,"sensor1, sensor2","float, float","?, ?","0.f, 0.f",Pressure measured by the redundant braking sensors,ACU,,10,1,A,,5
+352,ACU_BrakingFluidLevel,"sensor1, sensor2","bool: 1, bool: 1","T/F, T/F","false, false",Values measured by the braking fluid level sensors,ACU,,10,1,A,,5
+353,ACU_BrakingSystemFaults,"pressureSensorsDifferent, pressureSensor1OOB, pressureSensor2OOB, underpressure, levelSensorsDifferent, underlevel","bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1","T/F, T/F, T/F, T/F, T/F, T/F","false, false, false, false, false, false",Errors detected by the braking system monitor,ACU,,10,1,A,,5
+360,ACU_SteeringAngle,steeringAngle,float,degrees,0.f,Steering angle as measured by the ACU,ACU,BB,5,1,A,,10
+370,ACU_DareCCSetpoint,setpoint,float,km/h,0.f,Dare CC setpoint,ACU Dare setpoint,ACU,,1,A,,10
+371,ACU_DareCCLeftController,"error, integral","float, float","-, -","0.f, 0.f",Dare CC left controller state,ACU,,5,1,A,,10
+372,ACU_DareCCRightController,"error, integral","float, float","-, -","0.f, 0.f",Dare CC right controller state,ACU,,5,1,A,,10
+373,ACU_DareCCInverterSetpoints,"left, right","float, float","-, -","0.f, 0.f",Dare CC setpoints sent to the left and right inverters,ACU,,5,1,A,,10
+374,ACU_DareCCVelocities,"left, right","float, float","-, -","0.f, 0.f",Velocities,ACU,,5,1,A,,10
+375,ACU_DareCCBusVoltages,"left, right","float, float","V, V","0.f, 0.f",Voltages,ACU,,5,1,A,,10
+376,ACU_BusErrors,"mainTx,mainRx,invTx,invRx,cntr","uint8_t,uint8_t,uint8_t,uint8_t,uint8_t","-,-,-,-,-","0,0,0,0,0",Errors of main and sub buses,ACU,InvL,5,1,A,,10
+377,ACU_GitInfo,"hash,controllerRepoState,eslibRepoState,canspecRepoState","uint32_t,RepoState,RepoState,RepoState","-,-,-,-","0,RepoState::Unknown,RepoState::Unknown,RepoState::Unknown",Git repository state of the ACU,ACU,,,1,A,,5
+378,ACU_BuildTimeStamp,"year,month,day,hour,minute","uint16_t,Month,uint8_t,uint8_t,uint8_t","year,month,day,hour,minute","0,Month::Unknown,0,0,0",Timestamp of the build of the current ACU binary,ACU,,,1,A,,0
+387,MPPT1_CurrentAndVoltageIn,"currentIn, voltageIn","float, float","mA, V","0.f, 0.f",MPPT 1 current IN and voltage IN,MPPT1,PvC,,1,A,Mirror=true,0
+388,MPPT2_CurrentAndVoltageIn,"currentIn, voltageIn","float, float","mA, V","0.f, 0.f",MPPT 2 current IN and voltage IN,MPPT2,PvC,,1,A,Mirror=true,0
+389,MPPT3_CurrentAndVoltageIn,"currentIn, voltageIn","float, float","mA, V","0.f, 0.f",MPPT 3 current IN and voltage IN,MPPT3,PvC,,1,A,Mirror=true,0
+400,PvC_Version,"swMajor, swMinor, eslibMajor, eslibMinor, cliMajor, cliMinor","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","#, #, #, #, #, #","0, 0, 0, 0, 0, 0",PvC version message,PvC,,,1,A,,0
+401,PvC_Keepalive,bmsAlive,bool: 1,T/F,0,Keepalive of the PvC,PvC,,5,1,A,,10
+402,PvC_SolarChargingState,"state, error","SolarChargingState, SolarChargingError","state, error","SolarChargingState::Unknown, SolarChargingError::None",State of the solar charging system,PvC,FUC,5,1,A,,10
+403,PvC_MPPTState,"mppt1, mppt2, mppt3","MPPTState, MPPTState, MPPTState","state, state, state","MPPTState::Unknown, MPPTState::Unknown, MPPTState::Unknown",State of the MPPTs connected to the PvC,PvC,FUC,10,1,A,,5
+404,PvC_CurrentMeasurements,"mppt1, mppt2, mppt3","int16_t, int16_t, int16_t","mA, mA, mA","0, 0, 0","Current measurement per MPPT, with positive current being from MPPT to HV bus",PvC,,50,1,A,,10
+405,PvC_MPPTCurrents,"mppt1, mppt2, mppt3","int16_t, int16_t, int16_t","mA, mA, mA","0, 0, 0","Current measurement per MPPT, with positive current being from MPPT to HV bus",PvC,,5,1,A,,10
+406,PvC_MPPTTemperatures,"mppt1, mppt2, mppt3","int16_t, int16_t, int16_t","cdegC, cdegC, cdegC","0, 0, 0",PCB temperatures per MPPT,PvC,,10e,1,A,,5
+500,ChC_Version,"swMajor, swMinor, eslibMajor, eslibMinor, cliMajor, cliMinor","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","#, #, #, #, #, #","0, 0, 0, 0, 0, 0",ChC version message,ChC,,,1,A,,0
+501,ChC_Keepalive,"bmsAlive, pvcAlive","bool: 1, bool: 1","T/F, T/F","0, 0",Keepalive of the ChC,ChC,,10,1,A,,5
+502,ChC_MainsState,"state, error, relayClosed, relayStatus, mosfetClosed, lockActive","MainsChargingState, ChargingError, bool:1, bool:1, bool:1, bool: 1","state, error reason, T/F, T/F, T/F, T/F","MainsChargingState::Unknown, ChargingError::None, 0, 0, 0, 0",State of the charge controller and possible error reasons,ChC,,5,1,A,,10
+503,ChC_Ch1ConnState,"periodFlag, nMsgs, nRecv","uint8_t, uint8_t, uint8_t","-, -, -","0, 0, 0","Flag for request/response periods, number of messages sent to charger 1, number of messages received for each charger",ChC,,2,1,A,,0
+504,ChC_Ch2ConnState,"periodFlag, nMsgs, nRecv","uint8_t, uint8_t, uint8_t","-, -, -","0, 0, 0","Flag for request/response periods, number of messages sent to charger 2, number of messages received for each charger",ChC,,2,1,A,,0
+505,ChC_Ch3ConnState,"periodFlag, nMsgs, nRecv","uint8_t, uint8_t, uint8_t","-, -, -","0, 0, 0","Flag for request/response periods, number of messages sent to charger 3, number of messages received for each charger",ChC,,2,1,A,,0
+506,ChC_ChargersState,"ch1OK, ch2OK, ch3OK, ch1Alive, ch2Alive, ch3Alive, pad,ch1HiTemp,ch1OPOff,ch1ACFail,ch1Short,ch1OLP,ch1OVP,ch1OTP,ch1FanFail,ch2HiTemp,ch2OPOff,ch2ACFail,ch2Short,ch2OLP,ch2OVP,ch2OTP,ch2FanFail,ch3HiTemp,ch3OPOff,ch3ACFail,ch3Short,ch3OLP,ch3OVP,ch3OTP,ch3FanFail","bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, uint8_t: 2, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1","T/F, T/F, T/F, T/F, T/F, T/F, -, T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F, T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F, T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F","false,false,false, false,false,false, 0, 0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0",State of the MW3200 chargers connected to the ChC,ChC,FUC,20,1,A,,10
+507,ChC_CurrentControlSetpoint,"currentInMax, currentOutMax, enable","uint16_t, uint16_t, bool:1","cA, cA, T/F","0.f, 0.f, false",Setpoint for the ChC and whether to enable current control,ChC,,10,1,A,,5
+508,ChC_ChargerSetpoint,"current, voltage","float, float","A, V","0.f, 0.f","Setpoint (I_OUT, V_OUT) that is written to the chargers",ChC,,10,1,A,,5
+509,ChC_BusMeasurement,"voltage, current","float, float","V, A","0.f, 0.f",Voltage and current measured at the bus side of the chargers,ChC,BoC,20,1,A,,10
+510,ChC_ValidatedPVCurrent,"current, method","float, PVCurrentMethod","A, method","0.f, PVCurrentMethod::Unknown",PV current used by the ChC and the method by which it was obtained,ChC,,10,1,A,,5
+510,IVT_Msg_Debug,"DB0, DB1, DB2, DB3, DB4, DB5, DB6, DB7","int8_t, int8_t, int8_t, int8_t, int8_t, int8_t, int8_t, int8_t","-, -, -, -, -, -, -, -","0, 0, 0, 0, 0, 0, 0, 0",According to IVT datasheet,IVT,BMS,,1,A,,0
+511,ChC_InputCurrent,current,float,A,0.f,RMS current measured at the input of the charger,ChC,,100,1,A,,5
+512,ChC_InputVoltage,voltage,float,V,0.f,Voltage measured at the input of the charger,ChC,,40,1,A,,5
+513,SAC_RxPDO1,"targetTorque, opMode","int16_t, EPOS4OpMode","-, opMode","0, EPOS4OpMode::PPM",Target torque and mode of operation for the Steering Actuator Controller,ACU,SAC,,0,A,,0
+514,MPPT_PowerLevel,powerLevel,uint8_t,%,0,MPPT 1 power level,PvC,MPPT1,,1,A,,0
+514,BAC_RxPDO1,"targetTorque, opMode","int16_t, EPOS4OpMode","-, opMode","0, EPOS4OpMode::PPM",Target torque and mode of operation for the Braking Actuator Controller,ACU,BAC,,0,A,,0
+517,ChC_ControllerSetting,"targetCurrent,limitingFactor,eta,enabled","float, ChCLimitingFactor, uint8_t,bool:1","A, Factor, %, T/F","0.f, ChCLimitingFactor::BMS, 0, 0",Target current and limiting factor of the BMS,ChC,,10,1,A,,20
+518,ChC_ChargerOutputVoltages,"ch1Voltage, ch2Voltage, ch3Voltage","uint16_t, uint16_t, uint16_t","dV, dV, dV","0, 0, 0",Output voltages of the separate chargers connected to the ChC,ChC,,10,1,A,,20
+519,ChC_ChargerOutputCurrents,"ch1Current, ch2Current, ch3Current","uint16_t, uint16_t, uint16_t","dA, dA, dA","0, 0, 0",Output currents of the separate chargers connected to the ChC,ChC,,10,1,A,,20
+520,ChC_ProtocolState,"state, current, hasProximity, isCANSetpoint, isChargingPortSetpoint","SAEJ1772State, SAEJ1772Current, bool:1, bool:1, bool:1","state, current, T/F, T/F, T/F","SAEJ1772State::Unknown, SAEJ1772Current::Unknown, false, false, false",State of the SAE J1772 protocol connection on the ChC,ChC,,20,1,A,,10
+521,ChC_ProtocolMeasurement,"cpDutyCycle, ppVoltage","float, float","%, V","0.f, 0.f",Measurements of the charging port analog values,ChC,,40,1,A,,5
+522,ChC_ChargingControlState,"state, error, bmsAlive","ChargingControlState, ChargingControlError, bool:1","state, error, alive","ChargingControlState::Off, ChargingControlError::None, false",State of the ChC charging control,ChC,,10,1,A,,20
+523,ChC_ProtocolAmpacity,ampacity,float,A,0.f,Ampacity according to the SAE J1772 protocol in case where the ampacity is equation-based,ChC,,40,1,A,,5
+524,ChC_ChargerTemperatures,"ch1Temperature, ch2Temperature, ch3Temperature","int16_t, int16_t, int16_t","ddegC, ddegC, ddegC","0, 0, 0",Charger temperatures,ChC,,40,1,A,,5
+528,ChC_CurrentCounter,"wh, as","int32_t, int32_t","Wh, As","0,0",Current counter of the ChC since last start,ChC,,,5,A,,10
+529,ChC_AmpacityLimit,limit,float,A,INFINITY,Ampacity limit of the ChC,ChC,SSB,,5,A,,10
+550,ChC_ProtocolSetpoint_Override,"state, current","SAEJ1772State, SAEJ1772Current","state, current","SAEJ1772State::Standby, SAEJ1772Current::None",CAN override for the ChC protocol setpoint,,ChC,,0,A,,0
+561,ChC_CurrentControl_State,"totalControlAction, enable, feedbackEnable, feedForwardEnable, antiWindupEnable","float, bool:1, bool:1, bool:1, bool:1","A, T/F, T/F,T/F,T/F","0.f, false, false, false, false",State of the ChC current controller,ChC,,,5,A,,10
+562,ChC_CurrentControl_Feedback,"feedbackControlAction, integrator","float,float","A, A","0.f, 0.f",State of the feed-back part of the ChC current control subsystem,ChC,,,5,A,,10
+563,ChC_CurrentControl_FeedForward,"feedForwardControlAction","float","A","0.f",State of the feed-forward part of the ChC current control subsystem,ChC,,,5,A,,10
+564,ChC_CurrentControl_Saturation,"lowerBound,upperBound","float,float","A,A","0.f, 0.f",Lower and upper bound of the ChC current control output saturation,ChC,,,5,A,,10
+570,ChC_GitInfo,"hash,controllerRepoState,eslibRepoState,canspecRepoState","uint32_t,RepoState,RepoState,RepoState","-,-,-,-","0,RepoState::Unknown,RepoState::Unknown,RepoState::Unknown",Git repository state of the ACU,ACU,,,1,A,,5
+571,ChC_BuildTimeStamp,"year,month,day,hour,minute","uint16_t,Month,uint8_t,uint8_t,uint8_t","year,month,day,hour,minute","0,Month::Unknown,0,0,0",Timestamp of the build of the current ChC binary,ChC,,,1,A,,0
+600,FUC_Version,"swMajor, swMinor, eslibMajor, eslibMinor, cliMajor, cliMinor","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","#, #, #, #, #, #","0, 0, 0, 0, 0, 0",ChC version message,ChC,,,1,A,,0
+601,FUC_Keepalive,"lvcAlive, bmsAlive, acuAlive, pvcAlive, chcAlive, ssbAlive, rauxAlive, bbAlive, mk5Alive, pscbAlive","bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1, bool: 1","T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F","0, 0, 0, 0, 0, 0, 0, 0, 0, 0",FUC keepalive message,FUC,,40,1,A,,5
+602,FUC_PrimaryDisplayMode,mode,PrimaryDisplayMode,state,PrimaryDisplayMode::RDW,The mode of the primary display,FUC,"BoC, PsCB",,1,A,,0
+603,FUC_Input,"heater, fan, dss, leftDoorOpen, rightDoorOpen","bool:1, bool:1, bool: 1, bool: 1, bool: 1","On/Off, On/Off, On/Off, T/F, T/F","0, 0, 0, 0, 0",The state of the physical inputs present on the FUC,FUC,SSB,40,1,A,,5
+604,FUC_Telltales,"leftIndicatorBroken, rightIndicatorBroken, leftLowBeamBroken, rightLowBeamBroken","bool: 1, bool: 1, bool: 1, bool: 1","T/F, T/F, T/F, T/F","0, 0, 0, 0",Whether the lights on the FUC are broken,FUC,,40,1,A,,5
+605,FUC_CMSState,state,CMSState,state,CMSState::Off,The state of the CMS according to the FUC,FUC,PsCB,,1,A,,0
+606,FUC_CMSRightError,error,CMSError,error,CMSError::None,Error of the left CMS screen and camera,FUC,PsCB,,1,A,,0
+607,FUC_EnableExternalCharging,enable,uint8_t,T/F,0,Whether external charging should be enabled upon exiting Drive state,FUC,,,1,A,,0
+608,FUC_SyncTimer,timer,uint64_t,us,0,Sync timer for the FUC,FUC,,,1,A,,0
+609,FUC_LogFlag,flag,bool,-,0,Log flag for the FUC,FUC,,20,1,A,,10
+620,FUC_DemoTurnOn,turnOn,bool,T/F,false,Enables the demo turn-on sequence for during the car presentation,,FUC,,1,A,,0
+621,FUC_GitInfo,"hash,controllerRepoState,eslibRepoState,canspecRepoState","uint32_t,RepoState,RepoState,RepoState","-,-,-,-","0,RepoState::Unknown,RepoState::Unknown,RepoState::Unknown",Git repository state of the FUC,FUC,,,1,A,,5
+622,FUC_BuildTimeStamp,"year,month,day,hour,minute","uint16_t,Month,uint8_t,uint8_t,uint8_t","year,month,day,hour,minute","0,Month::Unknown,0,0,0",Timestamp of the build of the current FUC binary,FUC,,,1,A,,0
+641,SAC_TxPDO1,"actualCurrent, actualTorque","int32_t, int16_t","-, -","0, 0",Actual torque and current of the Steering Actuator,SAC,ACU,,0,A,,0
+642,BAC_TxPDO1,"actualCurrent, actualTorque","int32_t, int16_t","-, -","0, 0",Actual torque and current of the Braking Actuator,BAC,ACU,,0,A,,0
+643,MPPT1_VoltageOutAndPowerIn,"voltageOut, powerIn","float, float","V, mW","0.f, 0.f",MPPT 1 voltage OUT and power IN,MPPT1,PvC,,1,A,Mirror=true,0
+644,MPPT2_VoltageOutAndPowerIn,"voltageOut, powerIn","float, float","V, mW","0.f, 0.f",MPPT 2 voltage OUT and power IN,MPPT2,PvC,,1,A,Mirror=true,0
+645,MPPT3_VoltageOutAndPowerIn,"voltageOut, powerIn","float, float","V, mW","0.f, 0.f",MPPT 3 voltage OUT and power IN,MPPT3,PvC,,1,A,Mirror=true,0
+700,SSB_Version,"swMajor, swMinor, eslibMajor, eslibMinor, cliMajor, cliMinor","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","#, #, #, #, #, #","0, 0, 0, 0, 0, 0",SSB version message,SSB,,,1,A,,0
+701,SSB_WiperSpeed,"speed, squirt","WiperSpeed, bool","wiper speed, T/F","WiperSpeed::Off, 0",Speed of the wiper and whether to active the washer pump,SSB,FUC,20,1,A,,0
+702,SSB_CruiseControl,"setpoint, enable","float, bool","m/s, T/F","0.f, 0",Whether to enable cruise control and the setpoint,SSB,ACU,20,1,A,,10
+703,SSB_Honk,enable,bool: 1,On/Off,0,State of the honk according to the SSB,SSB,FUC,20,1,A,,10
+704,SSB_WSCButtons,"enableRegen, brightenScreen, enableRearCamera","bool: 1, bool: 1, bool: 1","T/F, T/F, T/F","0, 0, 0",Toggling of WSC-specific functions according to the SSB,SSB,"ACU, PsCB, RAUX",20,1,A,,10
+705,SSB_ChargingAmpacityLimit,limit,float,A,INFINITY,Ampacity limit by the SSB during charging,SSB,ChC,20,1,A,,10
+750,RAUX_Keepalive,"acuAlive,ssbAlive","bool:1, bool:1","T/F, T/F","0,0",Keepalive of the RAUX,RAUX,,,1,A,,0
+751,RAUX_Version,"swMajor, swMinor, eslibMajor, eslibMinor, cliMajor, cliMinor","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","#, #, #, #, #, #","0, 0, 0, 0, 0, 0",RAUX version message,RAUX,,,1,A,,0
+752,RAUX_LightsStatus,"rearLightBroken, rearLeftIndicatorBroken, rearRightIndicatorBroken, rearFogLightBroken","bool: 1, bool: 1, bool: 1, bool: 1","T/F, T/F, T/F, T/F","0, 0, 0, 0",Status of the lights connected to the RAUX,RAUX,,,1,A,,0
+800,BB_DSSState,state,DSSState,State,DSSState::Off,State of the autonomous system,BB,FUC,,1,A,,10
+850,AVC_Version,"swMajor, swMinor, eslibMajor, eslibMinor, cliMajor, cliMinor","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","#, #, #, #, #, #","0, 0, 0, 0, 0, 0",AVC version message,AVC,,1,1,A,,0
+851,AVC_Keepalive,avcAlive,bool: 1,T/F,false,Keepalive of the AVC,AVC,,5,1,A,,10
+852,AVC_State,state,AVCState,state,AVCState::Unknown,State of the AVC,AVC,,5,1,A,,10
+853,AVC_DiagnosticGeneral,"manualOverrideEnabled, fanEnabled","bool: 1, bool: 1","T/F, T/F","false, false",AVC general diagnostic information,AVC,,10,1,A,,5
+854,AVC_DiagnosticTemp,"NTCTemp1, NTCTemp2","float, float","Centigrade, Centigrade","0.f, 0.f",AVC diagnostic information of temperatures,AVC,,10,1,A,,5
+855,AVC_DiagnosticEE,"converterVoltage, converterCurrent","float, float","Volt, Ampere","0.f, 0.f",AVC diagnostic information of electronics,AVC,,10,1,A,,5
+856,AVC_Servicing,disableConverter,bool: 1,T/F,false,Message to manually disabled the converters of the AVC,AVC,,,1,A,,0
+897,SAC_TxPDO2,"statusWord, opMode","uint16_t, EPOS4OpMode","status word, opmode","0, EPOS4OpMode::PPM",Status word and operation mode of the Steering Actuator Controller,SAC,ACU,,0,A,,0
+898,BAC_TxPDO2,"statusWord, opMode","uint16_t, EPOS4OpMode","status word, opmode","0, EPOS4OpMode::PPM",Status word and operation mode of the Braking Actuator Controller,BAC,ACU,,0,A,,0
+903,MK5_17Compat_ACUOverrule,"dnr, overruleDNR, throtSensor1On, throtSensor2On, brakeSensor1On, brakeSensor2On, inverterLOn, inverterROn, regenBrakingOn","DNR, bool : 1, bool : 1, bool : 1, bool : 1, bool : 1, bool : 1, bool : 1, bool : 1","RND, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F","DNR::N, 0, 1, 1, 1, 1, 1, 1, 1",MK5 ACU overrule message (here for MCU '17 compatibility),MK5,ACU,,1,A,,0
+1000,BoC_Request_PrimaryDisplayMode,requestState,PrimaryDisplayMode,state,PrimaryDisplayMode::RDW,When HVI wants to request the primary screen to switch to a mode,BoC,FUC,,1,A,,0
+1001,BoC_Request_Regenerative,enable,bool : 1,T/F,0,When HVI wants to request enabling / disabling regenerative braking,BoC,ACU,,1,A,,0
+1002,BoC_Request_Autonomy_Sensing,enable,bool: 1,T/F,false,When HVI wants to request the LVC to turn on the Bluebox,BoC,LVC,,1,A,,0
+1003,BoC_Request_Honk,placeHolder,uint8_t,placeHolder,0,When the honk command is sent from the mobile app,BoC,FUC,,1,A,,0
+1004,BoC_Request_VehicleState,requestState,VehicleState,state,VehicleState::Drive,When HVI wants to request the LVC to switch to a vehicle state,BoC,LVC,,1,A,,0
+1041,IVT_Msg_Command,"commandByte, db1, db2, db3, db4, db5, db6, db7","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","-, -, -, -, -, -, -, -","0, 0, 0, 0, 0, 0, 0, 0",According to IVT datasheet,BMS,IVT,,1,A,,0
+1050,PsCB_Version,"swMajor, swMinor, eslibMajor, eslibMinor, cliMajor, cliMinor","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","#, #, #, #, #, #","0, 0, 0, 0, 0, 0",PsCB version message,PsCB,,,1,A,,0
+1051,PsCB_Keepalive,"lvcAlive, bmsAlive, acuAlive, pvcAlive, chcAlive, ssbAlive, fucAlive, rauxAlive, bbAlive, mk5Alive","bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1","T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F","0,0,0,0,0,0,0,0,0,0","Keepalive message of the PsCB, containing whether it considers other controllers to be alive or not",PsCB,,,1,A,,0
+1052,PsCB_CMSLeftError,error,CMSError,error,CMSError::None,Error of the left CMS screen and camera,PsCB,,,1,A,,0
+1060,ESB_Version,"swMajor, swMinor, eslibMajor, eslibMinor, cliMajor, cliMinor","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","#, #, #, #, #, #","0, 0, 0, 0, 0, 0",ESB version message,ESB,,,1,A,,0
+1061,ESB_SliderPosition,position,float,0-1,0.f,Position of the energy slider,ESB,,,1,A,Mirror=true,0
+1080,BMS_Sat1_MetaCellVoltages1,"cell1, cell2, cell3, cell4","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0, 0, 0, 0","MetaCell voltages for satellite 1, cells 1 to 4",BMS,,200,1,A,,1
+1081,BMS_Sat1_MetaCellVoltages2,"cell5, cell6, cell7, cell8","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0, 0, 0, 0","MetaCell voltages for satellite 1, cells 5 to 8",BMS,,200,1,A,,1
+1082,BMS_Sat1_MetaCellVoltages3,"cell9, cell10, cell11, cell12","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0, 0, 0, 0","MetaCell voltages for satellite 1, cells 9 to 12",BMS,,200,1,A,,1
+1083,BMS_Sat2_MetaCellVoltages1,"cell1, cell2, cell3, cell4","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0, 0, 0, 0","MetaCell voltages for satellite 2, cells 1 to 4",BMS,,200,1,A,,1
+1084,BMS_Sat2_MetaCellVoltages2,"cell5, cell6, cell7, cell8","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0, 0, 0, 0","MetaCell voltages for satellite 2, cells 5 to 8",BMS,,200,1,A,,1
+1085,BMS_Sat2_MetaCellVoltages3,"cell9, cell10, cell11, cell12","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0, 0, 0, 0","MetaCell voltages for satellite 2, cells 9 to 12",BMS,,200,1,A,,1
+1086,BMS_Sat3_MetaCellVoltages1,"cell1, cell2, cell3, cell4","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0, 0, 0, 0","MetaCell voltages for satellite 3, cells 1 to 4",BMS,,200,1,A,,1
+1087,BMS_Sat3_MetaCellVoltages2,"cell5, cell6, cell7, cell8","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0, 0, 0, 0","MetaCell voltages for satellite 3, cells 5 to 8",BMS,,200,1,A,,1
+1088,BMS_Sat3_MetaCellVoltages3,"cell9, cell10, cell11, cell12","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0, 0, 0, 0","MetaCell voltages for satellite 3, cells 9 to 12",BMS,,200,1,A,,1
+1089,BMS_Sat1_Temperatures,"chan1, chan2, chan3, chan4, chan5, chan6","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","°C,°C,°C,°C,°C,°C","0,0,0,0,0,0",BMS satellite 1 temperature,BMS,,200,1,A,,1
+1090,BMS_Sat2_Temperatures,"chan1, chan2, chan3, chan4, chan5, chan6","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","°C,°C,°C,°C,°C,°C","0,0,0,0,0,0",BMS satellite 2 temperature,BMS,,200,1,A,,1
+1091,BMS_Sat3_Temperatures,"chan1, chan2, chan3, chan4, chan5, chan6","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","°C,°C,°C,°C,°C,°C","0,0,0,0,0,0",BMS satellite 3 temperature,BMS,,200,1,A,,1
+1100,MK5_GPS,"lat, lon","float, float","decimal degrees, decimal degrees","0, 0",Last known GPS coördinates of the MK5,MK5,,,1,A,,10
+1101,MK5_GPSMetaData,"speed, heading","float, float","m/s, centidegrees","0, 0",Additional GPS data of speed and degrees from north,MK5,,,1,A,,10
+1102,MK5_Strat_GPS,"lat, lon","float, float","decimal degrees, decimal degrees","0, 0",Last known GPS coördinates of the MK5,MK5,,,1,A,,10
+1103,MK5_Strat_GPSMetaData,"speed, heading","float, float","m/s, centidegrees","0, 0",Additional GPS data of speed and degrees from north,MK5,,,1,A,,10
+1104,MK5_Tech_GPS,"lat, lon","float, float","decimal degrees, decimal degrees","0, 0",Last known GPS coördinates of the MK5,MK5,,,1,A,,10
+1105,MK5_Tech_GPSMetaData,"speed, heading","float, float","m/s, centidegrees","0, 0",Additional GPS data of speed and degrees from north,MK5,,,1,A,,10
+1106,MK5_GPSTimeStamp,timestamp,uint64_t,mSec since Epoch,0,Additional GPS timestamp,MK5,,,1,A,,10
+1110,BMS_ServicingParams,"overrideAcc, overrideHVIL, overrideIMD, overrideOvercurrent, resetSoC100","bool, bool, bool, bool, bool","T/F, T/F, T/F, T/F, T/F","0, 0, 0, 0, 0",Parameters for disabling certain processes in the system during servicing or testing,,BMS,,1,A,,0
+1111,Srv_BMS_BalancingControl,enableBalancing,bool,T/F,0,Controls balancing on the BMS,Servicing,BMS,,1,A,,0
+1130,Srv_CruiseControlOverride,"setpoint, enable","float, bool","m/s, T/F","0.f, false",Allows for overriding the Cruise Control over CAN,,ACU,,1,A,,0
+1131,Srv_RegenOverride,enablePedalRegen,bool: 1,T/F,false,Override flags for regenerative braking,ACU servicing,ACU,,1,A,,0
+1185,InvL_Status_NLELocomoco,"_unused1, internalOverTemperature, motorOverTemperature, overcurrent, undercurrent, overvoltage, undervoltage, _undefinedErrorBits, unused2, unused3, txErrCount, rxErrCount","uint16_t, bool:1,bool:1,bool:1,bool:1,bool:1,bool:1, uint8_t: 2, uint8_t, uint16_t, uint8_t, uint8_t","-, -,-,-,-,-,-,-,-, -, -, -","0, 0, 0, 0, 0, 0,0,0,0,0,0,0",Inverter status information,InvR,ACU,,1,A,Mirror=true,0
+1186,InvL_BusMeasurement_NLELocomoco,"voltage, current","float, float","V, A","0.f, 0.f",Inverter bus measurement,"InvL,ACU","ACU,MK5",,1,A,Mirror=true,0
+1187,InvL_VelocityMeasurement_NLELocomoco,"motorVelocity, vehicleVelocity","float, float","RPM, m/s","0.f, 0.f",Inverter velocity measurement,"InvL,ACU","ACU,MK5",,1,A,Mirror=true,0
+1195,InvL_TemperatureMeasurement_NLELocomoco,"motorTemperature, heatsinkTemperature","float, float","deg C, deg C","0.f, 0.f",Inverter temperature measurement,InvL,ACU,,1,A,Mirror=true,1
+1217,InvR_Status_NLELocomoco,"_unused1, internalOverTemperature, motorOverTemperature, overcurrent, undercurrent, overvoltage, undervoltage, _undefinedErrorBits, unused2, unused3, txErrCount, rxErrCount","uint16_t, bool:1,bool:1,bool:1,bool:1,bool:1,bool:1, uint8_t: 2, uint8_t, uint16_t, uint8_t, uint8_t","-, -,-,-,-,-,-,-,-, -, -, -","0, 0, 0, 0, 0, 0,0,0,0,0,0,0",Inverter status information,InvR,ACU,,1,A,Mirror=true,0
+1218,InvR_BusMeasurement_NLELocomoco,"voltage, current","float, float","V, A","0.f, 0.f",Inverter bus measurement,"InvR,ACU","ACU,MK5",,1,A,Mirror=true,0
+1219,InvR_VelocityMeasurement_NLELocomoco,"motorVelocity, vehicleVelocity","float, float","RPM, m/s","0.f, 0.f",Inverter velocity measurement,"InvR,ACU","ACU,MK5",,1,A,Mirror=true,0
+1155,MPPT1_Temperatures,"tempPCB, tempMOSFET","int16_t, int16_t","cdegC, cdegC","0, 0",MPPT 1 PCB and MOSFET temperatures,MPPT1,ChC,,1,A,Mirror=true,0
+1156,MPPT2_Temperatures,"tempPCB, tempMOSFET","int16_t, int16_t","cdegC, cdegC","0, 0",MPPT 2 PCB and MOSFET temperatures,MPPT2,ChC,,1,A,Mirror=true,0
+1157,MPPT3_Temperatures,"tempPCB, tempMOSFET","int16_t, int16_t","cdegC, cdegC","0, 0",MPPT 3 PCB and MOSFET temperatures,MPPT3,ChC,,1,A,Mirror=true,0
+1227,InvR_TemperatureMeasurement_NLELocomoco,"motorTemperature, heatsinkTemperature","float, float","deg C, deg C","0.f, 0.f",Inverter temperature measurement,InvL,ACU,,1,A,Mirror=true,1
+1153,InvR_DriveCommand_NLELocomoco,"velocity, current","float, float","RPM, [0..1]","0.f, 0.f",Inverter drive command,ACU,InvR,,1,A,,0
+1121,InvL_DriveCommand_NLELocomoco,"velocity, current","float, float","RPM, [0..1]","0.f, 0.f",Inverter drive command,ACU,InvL,,1,A,,0
+1200,Dbg_Uint8_1,"a, b, c, d, e, f, g, h","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","-, -, -, -, -, -, -, -","0, 0, 0, 0, 0, 0, 0, 0",Generic UInt8's for debugging,BMS,,,1,A,,0
+1201,Dbg_Uint8_2,"a, b, c, d, e, f, g, h","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","-, -, -, -, -, -, -, -","0, 0, 0, 0, 0, 0, 0, 0",Generic UInt8's for debugging,BMS,,,1,A,,0
+1203,Dbg_Uint8_3,"a, b, c, d, e, f, g, h","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","-, -, -, -, -, -, -, -","0, 0, 0, 0, 0, 0, 0, 0",Generic UInt8's for debugging,BMS,,,1,A,,0
+1204,Dbg_Uint8_4,"a, b, c, d, e, f, g, h","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","-, -, -, -, -, -, -, -","0, 0, 0, 0, 0, 0, 0, 0",Generic UInt8's for debugging,BMS,,,1,A,,0
+1205,Dbg_Uint16_1,"a, b, c, d","uint16_t, uint16_t, uint16_t, uint16_t","-, -, -, -","0, 0, 0, 0",Generic UInt16's for debugging,ChC,,,1,A,,0
+1206,Dbg_Uint16_2,"a, b, c, d","uint16_t, uint16_t, uint16_t, uint16_t","-, -, -, -","0, 0, 0, 0",Generic UInt16's for debugging,,,,1,A,,0
+1207,Dbg_Uint16_3,"a, b, c, d","uint16_t, uint16_t, uint16_t, uint16_t","-, -, -, -","0, 0, 0, 0",Generic UInt16's for debugging,,,,1,A,,0
+1208,Dbg_Uint16_4,"a, b, c, d","uint16_t, uint16_t, uint16_t, uint16_t","-, -, -, -","0, 0, 0, 0",Generic UInt16's for debugging,,,,1,A,,0
+1209,Dbg_Uint32_1,"a, b","uint32_t, uint32_t","-, -","0, 0",Generic UInt32's for debugging,,,,1,A,,0
+1210,Dbg_Uint32_2,"a, b","uint32_t, uint32_t","-, -","0, 0",Generic UInt32's for debugging,,,,1,A,,0
+1211,Dbg_Uint32_3,"a, b","uint32_t, uint32_t","-, -","0, 0",Generic UInt32's for debugging,,,,1,A,,0
+1212,Dbg_Uint32_4,"a, b","uint32_t, uint32_t","-, -","0, 0",Generic UInt32's for debugging,,,,1,A,,0
+1213,Dbg_Float_1,"a, b","float, float","-, -","0.f, 0.f",Generic floats for debugging,"RAUX, FUC, AVC, AVC",,,1,A,,0
+1214,Dbg_Float_2,"a, b","float, float","-, -","0.f, 0.f",Generic floats for debugging,"RAUX, FUC, AVC, AVC",,,1,A,,0
+1215,Dbg_Float_3,"a, b","float, float","-, -","0.f, 0.f",Generic floats for debugging,RAUX,,,1,A,,0
+1216,Dbg_Float_4,"a, b","float, float","-, -","0.f, 0.f",Generic floats for debugging,RAUX,,,1,A,,0
+1218,Dbg_BMSFanTachNTC1,"fan_tach_adc, ntc1_adc","float, float","-, -","0.f, 0.f",FAN_TACH and NTC1_ADC raw values,BMS,,,1,A,,0
+1219,Dbg_BMSNTC23,"ntc2_adc, ntc3_adc","float, float","-, -","0.f, 0.f",NTC2_ADC and NTC3_ADC raw values,BMS,,,1,A,,0
+1220,Dbg_BMSDigitalInputs,"lvc_wake_bms_int, accelerometer_int, hvil_ok_meas_int, hvil_mid_meas_int, debug_int, imd_data, hv_cont_neg_meas, hv_cont_pos_meas, ivt_ocs_meas_int, lv_uv_int, hv_aux_neg, hv_aux_pos, sat_fault_int, estop_meas_int, imd_ok","bool:1,bool:1,bool:1,bool:1, bool:1,bool:1,bool:1,bool:1, bool:1,bool:1,bool:1,bool:1, bool:1,bool:1, bool: 1","H/L,H/L,H/L,H/L, H/L,H/L,H/L,H/L, H/L,H/L,H/L,H/L, H/L,H/L,H/L","0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0",Raw input values on the BMS,BMS,,,1,A,,0
+1221,Dbg_BMSDigitalOutputs,"fan_pwm, bms_hv_precharge,bms_hv_prerelay_on,hv_discharge_off,canterm_1,bms_hv_enable_neg,bms_hv_enable_pos,bms_imd_override,bms_hvil_override,bsi_data,bsi_sclk,bsi_xlat,bsi_blank,lvc_hv_ready,sw_bsi_pwr,sat_wakeup,sw_fan_pwr,sw_ivt_pwr,ivt_trigger,bsi_keepalive_led,sw_imd_pwr,bms_ivt_ocs_override,dbg_led_blue,dbg_led_green,dbg_led_red,watchdog_trig,canterm_2,_","uint8_t, bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,uint8_t:6","% duty cycle, T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,T/F,-","0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",BMS output values for debugging over CAN,,BMS,,1,A,,0
+1222,Dbg_BMSIMDMeasurement,"state,dutyCycle,frequency","IMDMeasurement,uint8_t,uint8_t","state,%,Hz","IMDMeasurement::NoData,0,0",Debug measurement of the IMD,BMS,,,1,A,,0
+1231,Dbg_ACUDigitalOutputs,"p0_15,p0_17,p2_9","uint8_t, uint8_t, uint8_t","H/L, H/L, H/L","0, 0, 0",Debug digital outputs on the ACU,,,,1,A,,0
+1230,Dbg_ACUDigitalInputs,"p0_18,p0_19,p0_27,p0_28,p1_19,p2_7,p2_8,p3_26","bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1,bool:1","H/L,H/L,H/L,H/L,H/L,H/L,H/L,H/L","0,0,0,0,0,0,0,0",Debug measurement of digital inputs on the ACU,ACU,,,1,A,,0
+1232,Dbg_ACUAnalogInputs1,"p0_2,p0_3,p0_23,p0_24","uint16_t, uint16_t, uint16_t, uint16_t","0-10000,0-10000,0-10000,0-10000","0,0,0,0",Analog inputs on the ACU,ACU,,,1,A,,0
+1233,Dbg_ACUAnalogInputs2,"p0_25,p0_26,p1_30,p1_31","uint16_t, uint16_t, uint16_t, uint16_t","0-10000,0-10000,0-10000,0-10000","0,0,0,0",Analog inputs on the ACU,ACU,,,1,A,,0
+1234,Dbg_ACUCANInputs,"can1, can2","uint8_t, uint8_t","-, -","0, 0",Values from both CAN buses,ACU,InvL,,1,A,,0
+1235,Dbg_ACUCAN1Data,value,uint8_t,-,0,Value from CAN1 to write to Dbg_ACUCANInputs,,ACU,,1,A,,0
+1236,Dbg_ACUCAN2Data,value,uint8_t,-,0,Value from CAN2 to write to Dbg_ACUCANInputs,,ACU,,1,A,,0
+1237,Dbg_ACUTuningParamOut,"param, value","uint8_t, float","-, -","0, 0.f",Output of a parameter from the ACU to the tuning tool,ACU,,,1,A,,0
+1238,Dbg_ACUTuningParamIn,"param, value","uint8_t, float","-, -","0, 0.f",Input of a tuning parameter from the tuning tool to the ACU,,ACU,,1,A,,0
+1239,Dbg_ACUInverterControl,"current,velocity","float,float","-,-","0.f,0.f",Input for the ACU inverter control debug program,,ACU,,1,A,,0
+1250,Dbg_BMS_Sat1_Cells1,"cell1, cell2, cell3, cell4","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0,0,0,0",Cells 1-4 of sat board 1,BMS,,,1,A,,0
+1251,Dbg_BMS_Sat1_Cells2,"cell5, cell6, cell7, cell8","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0,0,0,0",Cells 5-8 of sat board 1,BMS,,,1,A,,0
+1252,Dbg_BMS_Sat1_Cells3,"cell9, cell10, cell11, cell12","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0,0,0,0",Cells 9-12 of sat board 1,BMS,,,1,A,,0
+1253,Dbg_BMS_Sat1_Aux1,"aux1, aux2, aux3, aux4","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0,0,0,0",Aux channels 1-4 of sat board 1,BMS,,,1,A,,0
+1254,Dbg_BMS_Sat1_Aux2,"aux5, aux6, aux7, aux8","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0,0,0,0",Aux channels 5-8 of sat board 1,BMS,,,1,A,,0
+1255,Dbg_BMS_Sat2_Cells1,"cell1, cell2, cell3, cell4","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0,0,0,0",Cells 1-4 of sat board 2,BMS,,,1,A,,0
+1256,Dbg_BMS_Sat2_Cells2,"cell5, cell6, cell7, cell8","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0,0,0,0",Cells 5-8 of sat board 2,BMS,,,1,A,,0
+1257,Dbg_BMS_Sat2_Cells3,"cell9, cell10, cell11, cell12","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0,0,0,0",Cells 9-12 of sat board 2,BMS,,,1,A,,0
+1258,Dbg_BMS_Sat2_Aux1,"aux1, aux2, aux3, aux4","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0,0,0,0",Aux channels 1-4 of sat board 2,BMS,,,1,A,,0
+1259,Dbg_BMS_Sat2_Aux2,"aux5, aux6, aux7, aux8","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0,0,0,0",Aux channels 5-8 of sat board 2,BMS,,,1,A,,0
+1260,Dbg_BMS_Sat3_Cells1,"cell1, cell2, cell3, cell4","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0,0,0,0",Cells 1-4 of sat board 3,BMS,,,1,A,,0
+1261,Dbg_BMS_Sat3_Cells2,"cell5, cell6, cell7, cell8","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0,0,0,0",Cells 5-8 of sat board 3,BMS,,,1,A,,0
+1262,Dbg_BMS_Sat3_Cells3,"cell9, cell10, cell11, cell12","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0,0,0,0",Cells 9-12 of sat board 3,BMS,,,1,A,,0
+1263,Dbg_BMS_Sat3_Aux1,"aux1, aux2, aux3, aux4","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0,0,0,0",Aux channels 1-4 of sat board 3,BMS,,,1,A,,0
+1264,Dbg_BMS_Sat3_Aux2,"aux5, aux6, aux7, aux8","uint16_t, uint16_t, uint16_t, uint16_t","mV, mV, mV, mV","0,0,0,0",Aux channels 5-8 of sat board 3,BMS,,,1,A,,0
+1265,Dbg_BMS_EnableBalancing,"sat1Chan, sat2Chan, sat3Chan","uint8_t, uint8_t, uint8_t","channel, channel, channel","0,0,0",Enables balancing of certain channels on the BMS sat boards,,BMS,,1,A,,0
+1270,Dbg_SSB_DigitalInputs,"switch1, switch2, switch3, switch4, switch5, switch6, switch7, switch8, switch9, switch10, switch11, switch12, switch13","bool:1, bool:1, bool: 1, bool: 1, bool:1, bool: 1, bool: 1, bool: 1, bool: 1, bool:1, bool:1, bool:1, bool:1","T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F, T/F","0,0,0,0,0, 0,0,0,0,0, 0,0,0",Digital outputs of the SSB,SSB,,,1,A,,0
+1271,Dbg_SSB_FSRInputs,"fsr1, fsr2","float, float","-, -","0.f, 0.f",ADC measurements of the FSR's on the SSB,SSB,,,1,A,,0
+1272,Dbg_SSB_RingLEDs,"led, w, r, g, b","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","-, -, -, -, -","0,0,0,0,0","Allows for control of the W, R, G and B components of the LEDs on the ring of the SSB",,SSB,,1,A,,0
+1273,Dbg_SSB_CenterLEDs,"led, r, g, b","uint8_t, uint8_t, uint8_t, uint8_t","-, -, -, -","0,0,0,0","Allows for control of the R, G and B components of the LEDs on the center of the SSB",,SSB,,1,A,,0
+1280,Dbg_LVC_DigitalOutputs1,"p0_8,p0_9,p0_10,p0_11,p0_19,p0_20,p1_9,p1_10","uint8_t,uint8_t,uint8_t,uint8_t, uint8_t,uint8_t,uint8_t,uint8_t","-,-,-,-, -,-,-,-","0,0,0,0, 0,0,0,0",Set 1 of digital outputs for the LVC,,LVC,,1,A,,0
+1281,Dbg_LVC_DigitalOutputs2,"p1_14,p1_15,p1_16,p1_17,p1_19,p1_20,p1_21,p1_22","uint8_t,uint8_t,uint8_t,uint8_t, uint8_t,uint8_t,uint8_t,uint8_t","-,-,-,-, -,-,-,-","0,0,0,0, 0,0,0,0",Set 2 of digital outputs for the LVC,,LVC,,1,A,,0
+1282,Dbg_LVC_DigitalOutputs3,"p1_23,p1_24,p1_25,p1_28,p1_29,p2_0,p2_1,p2_11","uint8_t,uint8_t,uint8_t,uint8_t, uint8_t,uint8_t,uint8_t,uint8_t","-,-,-,-, -,-,-,-","0,0,0,0, 0,0,0,0",Set 3 of digital outputs for the LVC,,LVC,,1,A,,0
+1283,Dbg_LVC_DigitalOutputs4,"p2_12,p2_13,p3_26_pwm,p0_16","uint8_t,uint8_t,uint8_t,uint8_t","-,-,0-100,-","0,0,0,0","Set 4 of digital outputs for the LVC, P3[26] is PWM, duty cycle is based on 0-100 value",,LVC,,1,A,,0
+1284,Dbg_LVC_DigitalInputs,"p0_15, p0_17, p0_18, P1_27,p2_2,p2_4,p2_5,p2_9","bool:1,bool:1, bool:1, bool:1,bool:1, bool:1, bool:1, bool:1","-,-,-,-,-,-,-,-","0,0,0,0,0,0,0,0",Digital input measurements of the LVC,LVC,,,1,A,,0
+1285,Dbg_LVC_NTC12,"ntc1, ntc2","float, float","-,-","0.f,0.f",NTC 1 and 2 measurements of the LVC,LVC,,,1,A,,0
+1286,Dbg_LVC_NTC34,"ntc3, ntc4","float, float","-,-","0.f,0.f",NTC 3 and 4 measurements of the LVC,LVC,,,1,A,,0
+1290,Dbg_ChC_DigitalOutputs,"p0_25, p1_21, p1_24, p1_26, p1_27, p1_28","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","0/1, 0/1, 0/1, 0/1, 0/1, 0/1","0,0,0,0,0,0",Digital output setting over CAN,,ChC,,1,A,,0
+1291,Dbg_ChC_Inputs1,"p0_23_voltage, p0_24_dc","float, float","V, 0-1","0.f, 0.f",PP and CP measurements on the ChC,ChC,,,1,A,,0
+1292,Dbg_ChC_Inputs2,p1_31_voltage,float,V,0.f,Current sense measurement on the ChC,ChC,,,1,A,,0
+1293,Dbg_ChC_CANData,"can1, can2","uint8_t, uint8_t","-, -","0, 0",Received values on CAN1 and CAN2 for receive test,ChC,Ch1,,1,A,,0
+1294,Dbg_ChC_CAN1Data,value,uint8_t,-,0,Debug data on CAN1,,ChC,,1,A,,0
+1295,Dbg_ChC_CAN2Data,value,uint8_t,-,0,Debug data on CAN2,,ChC,,1,A,,0
+1296,Dbg_ChC_ChargerSetpoint,"voltage, current, enable","uint16_t, uint16_t, uint8_t","0.1V, 0.1A, T/F","0, 0, 0",Debug charging setpoint for charging test software,,ChC,,1,A,,0
+1297,IVT_Msg_Response,"DB0, DB1, DB2, DB3, DB4, DB5, DB6, DB7","int8_t, int8_t, int8_t, int8_t, int8_t, int8_t, int8_t, int8_t","-, -, -, -, -, -, -, -","0, 0, 0, 0, 0, 0, 0, 0",According to IVT datasheet,IVT,BMS,,1,A,,0
+1297,IVT_Response,data,uint64_t,-,0,IVT data,IVT,,,1,A,,0
+1298,IVT_ResponseEcho,data,uint64_t,-,0,IVT data echo dit is papa alfa hotel,BMS,,,1,A,,0
+1400,IVT_Response_Out,"DB0, DB1, DB2, DB3, DB4, DB5, DB6, DB7","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","-, -, -, -, -, -, -, -","0, 0, 0, 0, 0, 0, 0, 0",According to IVT datasheet,BMS,,,1,A,,0
+1298,Dbg_FUC_OtherAUX,"fucsquirt, wiperFast, wiperSlow, wiperReturn, fan, heater, claxon, odroidShutdown","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","-, -, -, -, -, -, -, -","0, 0, 0, 0, 0, 0, 0, 0",Controls for other auxiliaries,FUC PCB Test,FUC,,1,A,,0
+1299,Dbg_FUC_UnauthorizedUseAUX,"keyLock, handbrakeLock","uint8_t, uint8_t","-, -","0,0",AUX controls for protection against unauthorized use,FUC PCB Test,FUC,,1,A,,0
+1300,Dbg_FUC_LEDStrip,"power, r, g, b","uint8_t, uint8_t, uint8_t, uint8_t","0/1, 0-255, 0-255, 0-255","0, 0, 0, 0","R, G and B values (0-255) for the LED strip",FUC PCB Test,FUC,,1,A,,0
+1301,Dbg_FUC_ASBLED12,"r1, g1, b1, r2, g2, b2","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","0-255, 0-255, 0-255, 0-255, 0-255, 0-255","0, 0, 0, 0, 0, 0","R, G and B values for LEDs 1 and 2 on the ASB (Value range: 0-255)",FUC PCB Test,FUC,,1,A,,0
+1302,Dbg_FUC_ASBLED34,"r3, g3, b3, r4, g4, b4","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","0-255, 0-255, 0-255, 0-255, 0-255, 0-255","0, 0, 0, 0, 0, 0","R, G and B values for LEDs 3 and 4 on the ASB (Value range: 0-255)",FUC PCB Test,FUC,,1,A,,0
+1303,Dbg_FUC_Telltales,"leftIndicator, rightIndicator, leftLowBeam, rightLowBeam","uint16_t, uint16_t, uint16_t, uint16_t","0-10000, 0-10000, 0-10000, 0-10000","0, 0, 0, 0",Telltale measurements on the FUC (Value range: 0-10000),FUC,,,1,A,,0
+1304,Dbg_FUC_DigitalInputs,"auxSwitchboard1, auxSwitchboard2, auxSwitchboard3, leftDoorSensor, rightDoorSensor","bool: 1, bool: 1, bool: 1, bool: 1, bool:1","T/F, T/F, T/F, T/F, T/F","0, 0, 0, 0, 0",Digital inputs on the FUC,FUC,,,1,A,,0
+1305,Dbg_FUC_Lights,"leftIndicator, rightIndicator, daytimeRunningLights, lowBeam, highBeam","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","-, -, -, -, -","0, 0, 0, 0, 0",Left light control for FUC debug software,FUC PCB Test,FUC,,1,A,,0
+1306,Dbg_PvC_Outputs,"relay12V, relay5V","uint8_t, uint8_t","0/1, 0/1","0, 0",Controls for outputs on the PvC,PvC debug,PvC,,1,A,,0
+1307,Dbg_PvC_Inputs,"curSense1, curSense2, curSense3, uv, interlock, estop","uint16_t, uint16_t, uint16_t, bool:1, bool:1, bool:1","0-10000, 0-10000, 0-10000, T/F, T/F, T/F","0, 0, 0, 0, 0, 0",Analog & digital inputs on the PvC,PvC,PvC debug,,1,A,,0
+1308,Dbg_PvC_CANEcho,"can1, can2","uint8_t, uint8_t","0-255, 0-255","0, 0",CAN echo for the PvC,PvC,MPPT1,,1,A,,0
+1309,Dbg_PvC_CANEcho_CAN1Data,data,uint8_t,0-255,0,CAN echo data for CAN1,PvC debug,PvC,,1,A,,0
+1310,Dbg_PvC_CANEcho_CAN2Data,data,uint8_t,0-255,0,CAN echo data for CAN1,PvC debug,PvC,,1,A,,0
+1313,IVT_Msg_Result_I,"MuxID, IVT_Result_StateIVT_MsgCount, IVT_Msg_Result_I","int8_t, int8_t, int32_t","-, -, mA","0, 0, 0","Mux: n = channel number, Cyclic counter individually for each channel, IVT__Result_state 0b0000 .. 0b1111,  I Result as signed long ",IVT,BMS,,1,A,,0
+1314,IVT_Msg_Result_U1,"MuxID, IVT_Result_StateIVT_MsgCount, IVT_Msg_Result_U1","int8_t, int8_t, int32_t","-, -, mV","0, 0, 0","Mux: n = channel number, Cyclic counter individually for each channel, IVT__Result_state 0b0000 .. 0b1111,  U1 Result as signed long ",IVT,BMS,,1,A,,0
+1315,IVT_Msg_Result_U2,"MuxID, IVT_Result_StateIVT_MsgCount, IVT_Msg_Result_U2","int8_t, int8_t, int32_t","-, -, mV","0, 0, 0","Mux: n = channel number, Cyclic counter individually for each channel, IVT__Result_state 0b0000 .. 0b1111,  U2 Result as signed long ",IVT,BMS,,1,A,,0
+1316,IVT_Msg_Result_U3,"MuxID, IVT_Result_StateIVT_MsgCount, IVT_Msg_Result_U3","int8_t, int8_t, int32_t","-, -, mV","0, 0, 0","Mux: n = channel number, Cyclic counter individually for each channel, IVT__Result_state 0b0000 .. 0b1111,  U3 Result as signed long ",IVT,BMS,,1,A,,0
+1317,IVT_Msg_Result_T,"MuxID, IVT_Result_StateIVT_MsgCount, IVT_Msg_Result_T","int8_t, int8_t, int32_t","-, -, 0.1°C","0, 0, 0","Mux: n = channel number, Cyclic counter individually for each channel, IVT__Result_state 0b0000 .. 0b1111,  T Result as signed long ",IVT,BMS,,1,A,,0
+1318,IVT_Msg_Result_W,"MuxID, IVT_Result_StateIVT_MsgCount, IVT_Msg_Result_W","int8_t, int8_t, int32_t","-, -, W","0, 0, 0","Mux: n = channel number, Cyclic counter individually for each channel, IVT__Result_state 0b0000 .. 0b1111,  P Result as signed long ",IVT,BMS,,1,A,,0
+1319,IVT_Msg_Result_As,"MuxID, IVT_Result_StateIVT_MsgCount, IVT_Msg_Result_As","int8_t, int8_t, int32_t","-, -, As","0, 0, 0","Mux: n = channel number, Cyclic counter individually for each channel, IVT__Result_state 0b0000 .. 0b1111,  Q Result as signed long ",IVT,BMS,,1,A,Mirror=true,0
+1320,IVT_Msg_Result_Wh,"MuxID, IVT_Result_StateIVT_MsgCount, IVT_Msg_Result_Wh","int8_t, int8_t, int32_t","-, -, Wh","0, 0, 0","Mux: n = channel number, Cyclic counter individually for each channel, IVT__Result_state 0b0000 .. 0b1111,  E Result as signed long ",IVT,BMS,,1,A,Mirror=true,0
+1321,Dbg_AVC_Converter_Output,"converterVoltage, converterCurrent","float, float","V, A","0.f, 0.f",Converter voltage and current for test software of AVC,AVC,,,1,A,,0
+1322,Dbg_AVC_NTC_Output,"ntcTemp1, ntcTemp2","float, float","°C, °C","0.f, 0.f",Output temps of ntcs of AVC,AVC,,,1,A,,0
+1323,Dbg_AVC_Enable_Converters,"enableConv1, enableConv2","int8_t, int8_t","0,0","0,0",Whether to enable the converters or not using test software of AVC,,AVC,,1,A,,0
+1324,Dbg_SAC_TxPDO1,"actualCurrent, actualTorque","int32_t, float","-, Nm","0, 0",Actual torque and current of the Steering Actuator,SAC,ACU,,0,A,,0
+1325,Dbg_BAC_TxPDO1,"actualCurrent, actualTorque","int32_t, float","-, Nm","0, 0",Actual torque and current of the Braking Actuator,BAC,ACU,,0,A,,0
+1326,Dbg_SAC_SetPoint,"setpoint, type","float, SACSetpointType","[Nm;deg], type","0, SACSetpointType::Torque",Target torque and mode of operation for the Steering Actuator Controller,ACU,SAC,,0,A,,0
+1327,Dbg_BAC_SetPoint,torque,float,Nm,0,Target torque and mode of operation for the Steering Actuator Controller,ACU,BAC,,0,A,,0
+1330,Dbg_ACU_LVCCSetpoint,setpoint,float,m/s,0.f,LVCC setpoint for the ACU,,ACU,,1,A,,0
+1331,Dbg_ACU_LeftCCSetpoint,setpoint,float,m/s,0.f,Left blocks CC setpoint for the ACU,,ACU,,1,A,,0
+1332,Dbg_ACU_RightCCSetpoint,setpoint,float,m/s,0.f,Right blocks CC setpoint for the ACU,,ACU,,1,A,,0
+1333,Dbg_ACU_Mode,mode,uint8_t,mode,0,Mode for ACU,,ACU,,1,A,,0
+1409,SAC_TxSDO,"command,index,subIndex,data","CANOpenSDOCommand, uint16_t, uint8_t, uint32_t","-, -, -, -","CANOpenSDOCommand::Null, 0, 0, 0",TxSDO for the Braking Actuator,BAC,ACU,,0,A,,0
+1410,BAC_TxSDO,"command,index,subIndex,data","CANOpenSDOCommand, uint16_t, uint8_t, uint32_t","-, -, -, -","CANOpenSDOCommand::Null, 0, 0, 0",TxSDO for the Steering Actuator,SAC,ACU,,0,A,,0
+1537,SAC_RxSDO,"command,index,subIndex,data","CANOpenSDOCommand, uint16_t, uint8_t, uint32_t","-, -, -, -","CANOpenSDOCommand::Null, 0, 0, 0",RxSDO for the steering actuator,ACU,SAC,,0,A,,0
+1538,BAC_RxSDO,"command,index,subIndex,data","CANOpenSDOCommand, uint16_t, uint8_t, uint32_t","-, -, -, -","CANOpenSDOCommand::Null, 0, 0, 0",RxSDO for the braking actuator,ACU,SAC,,0,A,,0
+1552,CMS_Message,"a, b, c, d, e, f, g, h","uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t","-, -, -, -, -, -, -, -","0, 0, 0, 0, 0, 0, 0, 0",CMS data,CMS,FUC,,1,A,,0
+1793,SAC_Heartbeat,data,CANOpenHeartbeatData,heartbeat data,CANOpenHeartbeatData::Null,CANopen heartbeat of the steering actuator,SAC,ACU,,0,A,,0
+1794,BAC_Heartbeat,data,CANOpenHeartbeatData,heartbeat data,CANOpenHeartbeatData::Null,CANopen heartbeat of the braking actuator,BAC,ACU,,0,A,,0
+786438,Ch1_Response,"command, value","uint16_t, uint16_t","-, *","0, 0",Charger response,Ch1,ChC,1,0,B,,0
+786437,Ch2_Response,"command, value","uint16_t, uint16_t","-, *","0, 0",Charger response,Ch2,ChC,1,0,B,,0
+786435,Ch3_Response,"command, value","uint16_t, uint16_t","-, *","0, 0",Charger response,Ch3,ChC,1,0,B,,0
+700000,Ch1_CCChargingCurve_Set,value,uint16_t,dA,0,Constant current charging curve,,,1,1,B,"Command=176, Write=true",0
+700100,Ch2_CCChargingCurve_Set,value,uint16_t,dA,0,Constant current charging curve,,,1,1,B,"Command=176, Write=true",0
+700200,Ch3_CCChargingCurve_Set,value,uint16_t,dA,0,Constant current charging curve,,,1,1,B,"Command=176, Write=true",0
+700001,Ch1_CurveConfig_Set,value,uint16_t,-,0,Charger function,,,1,1,B,"Command=180, Write=true",0
+700101,Ch2_CurveConfig_Set,value,uint16_t,-,0,Charger function,,,1,1,B,"Command=180, Write=true",0
+700201,Ch3_CurveConfig_Set,value,uint16_t,-,0,Charger function,,,1,1,B,"Command=180, Write=true",0
+700002,Ch1_CCTimeout_Set,value,uint16_t,min,0,Constant current mode timeout,,,1,1,B,"Command=181, Write=true",0
+700102,Ch2_CCTimeout_Set,value,uint16_t,min,0,Constant current mode timeout,,,1,1,B,"Command=181, Write=true",0
+700202,Ch3_CCTimeout_Set,value,uint16_t,min,0,Constant current mode timeout,,,1,1,B,"Command=181, Write=true",0
+700003,Ch1_TCChargingCurve_Set,value,uint16_t,dA,0,Taper current charging curve,,,1,1,B,"Command=179, Write=true",0
+700103,Ch2_TCChargingCurve_Set,value,uint16_t,dA,0,Taper current charging curve,,,1,1,B,"Command=179, Write=true",0
+700203,Ch3_TCChargingCurve_Set,value,uint16_t,dA,0,Taper current charging curve,,,1,1,B,"Command=179, Write=true",0
+700004,Ch1_VOutMeasurement_Get,value,uint16_t,dV,0,Output voltage,ChC,,1,1,B,"Command=96, Write=false",0
+700104,Ch2_VOutMeasurement_Get,value,uint16_t,dV,0,Output voltage,ChC,,1,1,B,"Command=96, Write=false",0
+700204,Ch3_VOutMeasurement_Get,value,uint16_t,dV,0,Output voltage,ChC,,1,1,B,"Command=96, Write=false",0
+700005,Ch1_VInMeasurement_Get,value,uint16_t,dV,0,Input voltage,ChC,,1,1,B,"Command=80, Write=false",0
+700105,Ch2_VInMeasurement_Get,value,uint16_t,dV,0,Input voltage,ChC,,1,1,B,"Command=80, Write=false",0
+700205,Ch3_VInMeasurement_Get,value,uint16_t,dV,0,Input voltage,ChC,,1,1,B,"Command=80, Write=false",0
+700006,Ch1_CVTimeout_Set,value,uint16_t,min,0,Constant voltage mode timeout,,,1,1,B,"Command=182, Write=true",0
+700106,Ch2_CVTimeout_Set,value,uint16_t,min,0,Constant voltage mode timeout,,,1,1,B,"Command=182, Write=true",0
+700206,Ch3_CVTimeout_Set,value,uint16_t,min,0,Constant voltage mode timeout,,,1,1,B,"Command=182, Write=true",0
+700007,Ch1_VOutSetpoint_Set,value,uint16_t,dV,0,Vout set,,,1,1,B,"Command=32, Write=true",0
+700107,Ch2_VOutSetpoint_Set,value,uint16_t,dV,0,Vout set,,,1,1,B,"Command=32, Write=true",0
+700207,Ch3_VOutSetpoint_Set,value,uint16_t,dV,0,Vout set,,,1,1,B,"Command=32, Write=true",0
+700008,Ch1_Status_Get,value,uint16_t,bits,0,Charger status,ChC,,1,1,B,"Command=184, Write=false",0
+700108,Ch2_Status_Get,value,uint16_t,bits,0,Charger status,ChC,,1,1,B,"Command=184, Write=false",0
+700208,Ch3_Status_Get,value,uint16_t,bits,0,Charger status,ChC,,1,1,B,"Command=184, Write=false",0
+700009,Ch1_FaultStatus_Get,value,MW3200FaultFlags,bits,MW3200FaultFlags{},Abnormal situation,ChC,,1,1,B,"Command=64, Write=false",0
+700109,Ch2_FaultStatus_Get,value,MW3200FaultFlags,bits,MW3200FaultFlags{},Abnormal situation,ChC,,1,1,B,"Command=64, Write=false",0
+700209,Ch3_FaultStatus_Get,value,MW3200FaultFlags,bits,MW3200FaultFlags{},Abnormal situation,ChC,,1,1,B,"Command=64, Write=false",0
+700010,Ch1_IOutSetpoint_Set,value,uint16_t,dA,0,Iout set,,,1,1,B,"Command=48, Write=true",0
+700110,Ch2_IOutSetpoint_Set,value,uint16_t,dA,0,Iout set,,,1,1,B,"Command=48, Write=true",0
+700210,Ch3_IOutSetpoint_Set,value,uint16_t,dA,0,Iout set,,,1,1,B,"Command=48, Write=true",0
+700011,Ch1_CVChargingCurve_Set,value,uint16_t,dV,0,Constant voltage charging curve,,,1,1,B,"Command=177, Write=true",0
+700111,Ch2_CVChargingCurve_Set,value,uint16_t,dV,0,Constant voltage charging curve,,,1,1,B,"Command=177, Write=true",0
+700211,Ch3_CVChargingCurve_Set,value,uint16_t,dV,0,Constant voltage charging curve,,,1,1,B,"Command=177, Write=true",0
+700012,Ch1_IOutMeasurement_Get,value,uint16_t,dA,0,Input current,ChC,,1,1,B,"Command=97, Write=false",0
+700112,Ch2_IOutMeasurement_Get,value,uint16_t,dA,0,Input current,ChC,,1,1,B,"Command=97, Write=false",0
+700212,Ch3_IOutMeasurement_Get,value,uint16_t,dA,0,Input current,ChC,,1,1,B,"Command=97, Write=false",0
+700013,Ch1_TInternalMeasurement_Get,value,uint16_t,ddegC,0,Internal temperature,ChC,,1,1,B,"Command=98, Write=false",0
+700113,Ch2_TInternalMeasurement_Get,value,uint16_t,ddegC,0,Internal temperature,ChC,,1,1,B,"Command=98, Write=false",0
+700213,Ch3_TInternalMeasurement_Get,value,uint16_t,ddegC,0,Internal temperature,ChC,,1,1,B,"Command=98, Write=false",0
+700014,Ch1_Operation_Set,value,uint8_t,T/F,0,Enable/disable control,,,1,1,B,"Command=0, Write=true",0
+700114,Ch2_Operation_Set,value,uint8_t,T/F,0,Enable/disable control,,,1,1,B,"Command=0, Write=true",0
+700214,Ch3_Operation_Set,value,uint8_t,T/F,0,Enable/disable control,,,1,1,B,"Command=0, Write=true",0
+700015,Ch1_FTimeout_Set,value,uint16_t,min,0,Floating mode timeout,,,1,1,B,"Command=183, Write=true",0
+700115,Ch2_FTimeout_Set,value,uint16_t,min,0,Floating mode timeout,,,1,1,B,"Command=183, Write=true",0
+700215,Ch3_FTimeout_Set,value,uint16_t,min,0,Floating mode timeout,,,1,1,B,"Command=183, Write=true",0
+700016,Ch1_Version_Get,value,uint64_t:48,min,0,Charger version,,,1,1,B,"Command=183, Write=false",0
+700116,Ch2_Version_Get,value,uint64_t:48,min,0,Charger version,,,1,1,B,"Command=183, Write=false",0
+700216,Ch3_Version_Get,value,uint64_t:48,min,0,Charger version,,,1,1,B,"Command=183, Write=false",0

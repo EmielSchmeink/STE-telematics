@@ -1,0 +1,66 @@
+Name,Code,Description
+ACUMode,"enum class ACUMode : uint8_t { RDW, WSC, DARE }",ACU mode
+AVCState,"enum class AVCState : uint8_t {Unknown, Startup, ConvertersEnabled, ManualOverride, Failure}",State of the AVC
+BrakingPrecheckState,"enum class BrakingPrecheckState : uint8_t { Unknown, Inactive, CheckingPressure, WaitingForHandbrake, WaitingForActuators }",Braking precheck state
+BMSBalancingState,"enum class BMSBalancingState : uint8_t { None, Unbalanced, Balanced, Balancing, Recovering, Shutdown }",State of the balancing system of the BMS
+BMSCoolingLimit,"enum class BMSCoolingLimit : uint8_t { Charging, Discharging }",State on which the cooling limits of the BMS are based
+BMSError,"enum class BMSError : uint8_t { None, CellUndervoltage, CellOvervoltage, BatteryUndertemperature, BatteryOvertemperature, PCBOvertemperature, EmergencyStop, HVILError, Overcurrent, IVTOCS, SatelliteFault, SatelliteInternalFault, SatellitePCBOvertemperature, NegContactorAUXMismatch, PosContactorAUXMismatch, NegContEnableChainMismatch, PosContEnableChainMismatch, IMDStartupKl31Fault, IMDStartupDeviceError, IMDStartupTimeout, IMDKl31Fault, IMDDeviceError, IMDNoData, IMDInvalidData, IMDNotOK, SatelliteStartupTimeout, SatelliteCommunicationLoss, IVTStartupTimeout, IVTCommunicationLoss, IVTResponseTimeout, ContactorError, PrechargeTimeout, LVCWakeLow, BatteryHVUndervoltage, UVProtectionDischargeLimitExceeded, UVProtectionChargingTimeout, PermanentUVProtection }",Errors that can occur in the BMS main state machine
+BMSESSSubState,"enum class BMSESSSubState : uint8_t { None, WaitingForLVC, Ready }",Sub-state of the ESS state of the main BMS state
+BMSState,"enum class BMSState : uint8_t { ESS, Startup, Precharge, Active }",State of the main BMS state machine
+BMSSatState,"enum class BMSSatState : uint8_t { Unknown, Configuring, Operational, Balancing, Sleep, Error, Waking, InitialMeasurement }",State of the BMS sat board interface
+BMSSatError,"enum class BMSSatError : uint8_t { Unknown, None, NoneInStack, WrongNumberInStack, WakeupTimeout, NoDataReceived }",Errors contained in the BMS Sat interface
+CANOpenHeartbeatData,"enum class CANOpenHeartbeatData : uint8_t { Null = 0x0, StoppedNoToggle = 0x04, OperationalNoToggle = 0x05, PreOperationalNoToggle = 0x7F, StoppedToggle = 0x84, OperationalToggle = 0x85, PreOperationalToggle = 0xFF }",Data contained in a CANopen Heartbeat message
+CANOpenInterfaceDeviceState,"enum class CANOpenInterfaceDeviceState : uint8_t { Unknown, OK, Timeout, Emergency }",State of CANopen device states
+CANOpenInterfaceState,"enum class CANOpenInterfaceState : uint8_t { Off, DevicesOffline, Configuring, DoneConfiguring, Operational, Error }",State of a CANOpenInterface
+CANOpenNMTCommand,"enum class CANOpenNMTCommand : uint8_t { Null = 0x0, Operational = 0x01, Stopped = 0x02, PreOperational = 0x80, ResetNode = 0x81, ResetCommunication = 0x82 }",Command code for a CANopen NMT message 
+CANOpenNodeState,"enum class CANOpenNodeState : uint8_t { Unknown, Stopped, PreOperational, Operational }",State of a CANopen node according to the CANopen node state machine
+CANOpenSDOCommand,"enum class CANOpenSDOCommand : uint8_t { Null = 0x0, ExpeditedTransfer1Byte = 0x2F, ExpeditedTransfer2Bytes = 0x2B, ExpeditedTransfer3Bytes = 0x27, ExpeditedTransfer4Bytes = 0x23, Read = 0x40, ReadOK = 0x4B, WriteOK = 0x60 }",Different possible CANOpen SDO commands
+CellOvervoltageLimit,"enum class CellOvervoltageLimit : uint8_t { None, NormalOV, BalancingOV }",Factor on which the cell overvoltage of the main BMS state machine is based
+ChargingControlState,"enum class ChargingControlState : uint8_t { Off, InitialSetVoltage, SetVoltage, Active, Error }",State of the ChC charging control
+ChargingControlError,"enum class ChargingControlError : uint8_t { None, NoBMSData, BMSBusVoltageTooLow, BMSBusVoltageTooHigh, BMSBusVoltageMismatch, ChargerInputVoltageTooLow, ChargerInputVoltageTooHigh, Charger1Error, Charger2Error, Charger3Error }",Possible errors of the ChC charging control system
+ChargingError,"enum class ChargingError : uint8_t { None, ChargerStartupTimeout, ChargerFaultFlag, ChargerTimeout, RelayNotClosing, RelayWelded, BusVoltageTimeout, RestartErrorTimeout, ControlError }",Cause of error for an Error state of the mains charging subsystem
+ChCLimitingFactor,"enum class ChCLimitingFactor : uint8_t { Protocol, BMS }",Limiting factor of the charging current of the ChC
+ControlState,"enum class ControlState : uint8_t { Unknown, Off, On, TurnOff }",State of any controlling entity with control access to the ACU
+CMSError,"enum class CMSError : uint8_t { None, CameraDisconnected, DisplayDisconnected, UnknownError }",Error by the CMS
+CMSState,"enum class CMSState : uint8_t { On, Standby, Off }",State of the CMS
+DNR,"enum class DNR : uint8_t { Unknown, D, N, R }",Driving direction status
+DSSActuationState,"enum class DSSActuationState : uint8_t { Unknown, Off, Starting, ActuatingDSS, ActuatingPrecheck, ActuationPaused, Error }",Status of the DSS control component
+DSSActuationError,"enum class DSSActuationError : uint8_t { None, DSSConnectionLoss, BrakePressed, ThrottlePressed, HandbrakeActive, BrakePedalError, ThrottlePedalError, BrakingSystemError, LeftInverterError, RightInverterError, MaxForwardVelocityExceeded, MaxBackwardVelocityExceeded, EPOS4Timeout, SACUnknownEPOS4Error, BACUnknownEPOS4Error, SACOvercurrent, BACOvercurrent, SACPowerStageProtection, BACPowerStageProtection, SACOvervoltage, BACOvervoltage, SACUndervoltage, BACUndervoltage, SACThermalOverload, BACThermalOverload, SACThermalMotorOverload, BACThermalMotorOverload, SACLogicSupplyVoltageLow, BACLogicSupplyVoltageLow, SACHardwareError, BACHardwareError, SACHallSensorNotFound, BACHallSensorNotFound, SACMissingMainSensor, BACMissingMainSensor, SACMissingCommutationSensor, BACMissingCommutationSensor, UnknownInterfaceError, _Last }",Errors that can occur during DSS actuation
+DSSControllerError,"enum class DSSControllerError : uint8_t { None, LVCTimeout, InterfaceStartTimeout, InterfaceConfigTimeout, ShutdownEPOS4Timeout, SwitchOnEPOS4Timeout, EPOS4Timeout, CANOpenInterfaceError, UnknownError }",Contains the possible errors produced by the DSS control system
+DSSControllerStartingStage,"enum class DSSControllerStartingStage : uint8_t { None, LVC, InterfaceStart, InterfaceConfig, ShutdownEPOS4, SwitchOnEPOS4 }",Stage of the DSS controller startup phase
+DSSPrecheckError,"enum class DSSPrecheckError : uint8_t { None, PrecheckFailed, DSSConnectionLoss, BrakePressed, ThrottlePressed, HandbrakeNotActive, BrakePedalError, ThrottlePedalError, BrakingSystemError, LeftInverterError, RightInverterError, VelocityError, DNRNotN, LVCTimeout, CANOpenInterfaceStartTimeout, CANOpenInterfaceConfigTimeout, ShutdownEPOS4Timeout, SwitchOnEPOS4Timeout, EPOS4Timeout, SACUnknownEPOS4Error, BACUnknownEPOS4Error, SACOvercurrent, BACOvercurrent, SACPowerStageProtection, BACPowerStageProtection, SACOvervoltage, BACOvervoltage, SACUndervoltage, BACUndervoltage, SACThermalOverload, BACThermalOverload, SACThermalMotorOverload, BACThermalMotorOverload, SACLogicSupplyVoltageLow, BACLogicSupplyVoltageLow, SACHardwareError, BACHardwareError, SACHallSensorNotFound, BACHallSensorNotFound, SACMissingMainSensor, BACMissingMainSensor, SACMissingCommutationSensor, BACMissingCommutationSensor, UnknownInterfaceError, _Last }",Errors that can occur during DSS precheck
+DSSState,"enum class DSSState : uint8_t {Off, Monitoring, Active}",State of the autonomous system
+DualChargerStrategySubState,"enum class DualChargerStrategySubState : uint8_t { None, Active, SetpointUndervoltageDelay }",Substate of the dual-strategy state of the ChC
+EPOS4OpMode,"enum class EPOS4OpMode : uint8_t { PPM = 1, PVM = 3, HMM = 6, CSP = 8, CSV = 9, CST = 10 }",Possible operation modes of the EPOS4 motor controller
+IMDMeasurement,"enum class IMDMeasurement : uint8_t { Normal, Undervoltage, SST, DeviceError, Kl31Fault, Override, InvalidData, NoData }",
+IMDState,"enum class IMDState : uint8_t { Off, Starting, StartupDelay, Operational, Error, Shutdown, Restarting }",State of the IMD
+InverterType,"enum class InverterType : uint8_t { Unknown, Tritium, NLE }",Type of inverter used on the ACU
+InverterStatus,"enum class InverterStatus : uint8_t { Unknown, Off, Starting, On, Error, Timeout }",Status of an inverter on the ACU
+IVTChargingLimitSetting,"enum class IVTChargingLimitSetting : uint8_t { IVTOff, LowTempLimit, HighTempLimit, DisableCharging, Precharging }",Setting of the charging limit of the IVT according to the BMS state machine
+IVTDischargingLimitSetting,"enum class IVTDischargingLimitSetting : uint8_t { IVTOff, LowTempLimit, MidTempLimit, HighTempLimit, Precharging }",Setting of the discharging limit of the IVT according to the BMS state machine
+IVTLimitState,"enum class IVTLimitState : uint8_t { IVTOff, ConfiguringDischargingLimit, ConfiguringChargingLimit, IVTOn, ReadingErrors }",State of the IVT limiting state
+IVTStartupState,"enum class IVTStartupState : uint8_t { None, Starting, InitialConfig, WaitingForConfig, Operational, Error }",State of the IVT startup sequence
+KeyStatus,"enum class KeyStatus:uint8_t {Off = 0, On, Start}",Key status
+LightingState,"enum class LightingState : uint8_t { Off, DRT, LB, HB }",State of the main lighting
+LVCError,"enum class LVCError : uint8_t { None, InvalidTransition, StartingInEmergency, EmergencyModeActivated, HVBusUnderVoltage, BMSNotOK, LVOverTemperature, LVOverPowerConsumption, AOPSUOverCurrent, PrimaryLVUndervoltage, PrimaryLVOvervoltage, LVBusUndervoltage, LVBusOvervoltage }",Errors from the LVC
+LVCState,"enum class LVCState : uint8_t {Initializing = 0, Sleep, Error, PowerUpBMS, PowerUpHVCheck, PowerUpPrimaryLV, PowerUpPrimaryLVDelay, LVVoltageCheck, EnableLVState, SexTupleConvDelay, SexTupleConv, QuintupleConvDelay, QuintupleConv, QuadrupleConvDelay, QuadrupleConv,TripleConvDelay, TripleConv, DoubleConvDelay, DoubleConv, SingleConvDelay, SingleConv}",State of the LVC
+MainsChargingState,"enum class MainsChargingState : uint8_t { Unknown, Off, Starting, Restarting, Ready, Charging, Releasing, Error, Recovered, Disabled, ACRecovery, Cooldown, Done }",State of the mains charging subsystem of the ChC
+MotorControlMode,"enum class MotorControlMode : uint8_t { Manual, Brake, Velocity, Dare, Block }",Motor control mode
+Month,"enum class Month : uint8_t { Unknown, January, February, March, April, May, June, July, August, September, October, November, December}",Months of the year
+MPPTState,"enum class MPPTState : uint8_t {Unknown, Off, Charging, Timeout, ReverseCurrent }",States of an MPPT connected to the ChC
+MW3200FaultFlags,struct MW3200FaultFlags { bool fanFail: 1; bool otp: 1; bool ovp: 1; bool olp: 1; bool shorted: 1; bool acFail: 1; bool opOff: 1; bool hiTemp: 1; uint8_t _hb_pad; },Fault flags of the MW3200
+OnOff,"enum class OnOff : uint8_t { None, Off, On }","Generic on/off state, might be a bit more descriptive than a boolean"
+OperationMode,"enum class OperationMode : uint8_t { Unknown, Manual, CruiseControl, DSS, Block, TurnOff }",Current operation mode of the ACU
+PrimaryDisplayMode,"enum class PrimaryDisplayMode : uint8_t {WSC, RDW}",The mode of the primary display
+SAEJ1772Current,"enum class SAEJ1772Current : uint8_t { Unknown, None, _30A, _24A, _18A, _15A, _9_6A, _6A, EquationBased, Invalid }",Contains the possible currents signaled by the SAE J1772 protocol
+SAEJ1772State,"enum class SAEJ1772State : uint8_t { Unknown, Standby, Connected, Charging, Releasing }",State of the SAE J1772 protocol on the ChC
+SatelliteStartupState,"enum class SatelliteStartupState : uint8_t { None, Starting, Operational, Error }",State of the BMS satellite startup sequence
+SolarChargingError,"enum class SolarChargingError : uint8_t { None, EStop, UV, InterlockNotOK, ReverseCurrent }",Errors that can occur in the solar charging system
+SolarChargingState,"enum class SolarChargingState : uint8_t {Unknown, Enabled, ESDisabled, Error }",The state of the solar charging system
+TripleChargerStrategySubState,"enum class TripleChargerStrategySubState : uint8_t { None, VoltageMeasurementTimeout, InitialVoltageIncrease, Active, DisbalanceResetDelay, SetpointUndervoltageDelay }",Sub-state of the triple charger strategy state
+PVCurrentMethod,"enum class PVCurrentMethod : uint8_t { Unknown, PvC, PvCClamped, NetBatt, NetBattClamped }",Method by which the PV current on the ChC was determined
+RepoState,"enum class RepoState : uint8_t { Unknown, Clean, Dirty }",State of a git repository
+UVRecoveryState,"enum class UVRecoveryState : uint8_t { None, RecoveryDisabled, RecoveryEnabled, ChargingTimeout, Charging, PermanentProtection }",State of the UV recovery system
+VehicleState,"enum class VehicleState : uint8_t { Standby = 0, Demo, Auto, Drive, WSC, ESS, ExternalCharging }",The state of the vehicle
+WiperSpeed,"enum class WiperSpeed : uint8_t {Off, Slow, Fast}",Speed of the window wiper
+SACSetpointType,"enum class SACSetpointType : uint8_t {Torque = 0, Angle = 1}",Steering actuator control types

@@ -1,6 +1,5 @@
 {
     "java.project.sourcePaths": [
-        "StellaCANRead Proxy Server\\src",
         "StratViz Proxy Server\\src"
     ],
     "java.configuration.updateBuildConfiguration": "interactive"

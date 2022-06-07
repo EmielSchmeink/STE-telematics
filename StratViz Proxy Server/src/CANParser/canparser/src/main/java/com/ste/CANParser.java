@@ -1,4 +1,4 @@
-package CANParser.canparser.src.main.java.com.ste; 
+package com.ste; 
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,7 +39,7 @@ public class CANParser {
 
         try { 
             // THe default path where the format file resides. May be overridden if the filechooser is used
-            String filename = "canparser\\src\\res\\messages.csv";
+            String filename = "src\\CANParser\\canparser\\src\\res\\messages.csv";
             
             // Read in the filename depending on whether we want to choose a file or just use the default one
             if (USE_FILEPICKER) {
@@ -126,7 +126,7 @@ public class CANParser {
         try { 
             // Instantiate a CSVReader object and use it to read the default typedefs file
             reader = new CSVReaderBuilder(
-                new FileReader("canparser\\src\\res\\typedefs.csv"))
+                new FileReader("src\\CANParser\\canparser\\src\\res\\typedefs.csv"))
                 .withCSVParser(new CSVParserBuilder().withSeparator(',').build())
                 .build();
 
@@ -167,7 +167,7 @@ public class CANParser {
 
 
         // Do some basic testing. NB: not a substitution for unit tests!!
-        final boolean PARSER_DEBUG = true;
+        final boolean PARSER_DEBUG = false;
 
         if (PARSER_DEBUG) {
             // Test the parsing of the Typedefs file by printing its name and the possible states for that typedef

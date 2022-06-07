@@ -1,4 +1,4 @@
-package CANParser.canparser.src.main.java.com.ste;
+package com.ste;
 
 import java.util.ArrayList;
 

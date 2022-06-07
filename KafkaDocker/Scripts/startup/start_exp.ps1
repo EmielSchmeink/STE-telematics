@@ -3,7 +3,7 @@
 #
 # Number of folders to go up
 $dist = 2;
-# Jump to the correct directory
+# Loop to jump up a directory eevry time it loops
 for (($i = 0); $i -lt $dist; $i++)
 {
     Set-Location -Path ..

@@ -2,6 +2,8 @@ version: "3"
 services:
   kafka:
     image: 'bitnami/kafka:latest'
+    networks:
+      - back-tier
     container_name: kafka
     ports:
       - '9092:9092' # Internal port
@@ -22,6 +24,41 @@ services:
       - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@127.0.0.1:9093
       - ALLOW_PLAINTEXT_LISTENER=yes
       #- KAFKA_MOUNTED_CONF_DIR=./server.properties
+  kafka-connect:
+    image: 'bitnami/kafka:latest'
+    networks:
+      - back-tier
+    container_name: kafka-connect
+    ports:
+      - '9092:9092' # Internal port
+      #- '9093:9093' # External port
+      #- '9094:9094' # rand test
+    volumes:
+      - './kafka_connect/kafka_connect_data:/bitnami'
+      - './kafka_connect/kafka_connect_config/connect-distributed.properties:/opt/bitnami/kafka/config/connect-distributed.properties'
+    depends_on:
+      - kafka
+    command: /opt/bitnami/kafka/bin/connect-distributed.sh /opt/bitnami/kafka/config/connect-distributed.properties
+  #kcat:
+  #  image: 'confluentinc/cp-kafkacat:latest'
+  #  networks:
+  #    - back-tier
+  #  container_name: kcat
+  #  tty: true
+  #  environment:
+  #     - BROKER_LIST
+  #     - KAFKA_VERSION=${KAFKA_VERSION-3.2}
+    #volumes:
+    #  - ./kcat/tests:/tests
+    #working_dir: /tests
+    #entrypoint:
+    #  - ./runTestPattern.sh
+    #command:
+    #  - "*/*.kafkacat.sh"
+
 #volumes:
   # server_properties:
   # enter a volume for persisting the actual data HERE
+networks:
+  back-tier:
+  front-tier:
